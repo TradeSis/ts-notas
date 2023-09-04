@@ -22,6 +22,21 @@ if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 
 $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 $logado = $_SESSION['usuario'];
 
-include_once ROOT. "/vendor/vendor.php";
-
 ?>
+<!DOCTYPE html>
+
+<head>
+    <title>Notas</title>
+</head>
+<html>
+
+<body>
+
+<?php
+        include_once ROOT. "/vendor/vendor.php";
+?>
+
+
+</body>
+
+</html>
