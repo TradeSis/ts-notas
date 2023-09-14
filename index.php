@@ -1,6 +1,7 @@
 <!DOCTYPE html>
+
 <head>
-        <title>Notas</title>
+    <title>Notas</title>
 </head>
 <html>
 
@@ -28,14 +29,14 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
 
                 <?php
                 $tab = ''; // default
-                
+
                 if (isset($_GET['tab'])) {
                     $tab = $_GET['tab'];
                 }
 
                 if ($nivelMenu >= 1) {
                     if ($tab == '') {
-                        $tab = 'contasareceber';
+                        $tab = 'notasservico';
                     } ?>
                     <li class="nav-item mr-1">
                         <a class="nav-link1 nav-link <?php if ($tab == "notasservico") {
@@ -44,14 +45,11 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
                     </li>
 
                 <?php }
-
-
                 if ($nivelMenu >= 4) { ?>
                     <li class="nav-item mr-1">
                         <a class="nav-link1 nav-link <?php if ($tab == "configuracao") {
                             echo " active ";
-                        } ?>" href="?tab=configuracao" role="tab" data-toggle="tooltip" data-placement="top"
-                            title="Configurações"><i class="bi bi-gear"></i> Configurações</a>
+                        } ?>" href="?tab=configuracao" role="tab" data-toggle="tooltip" data-placement="top" title="Configurações"><i class="bi bi-gear"></i> Configurações</a>
                     </li>
                 <?php } ?>
 
@@ -69,25 +67,22 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
 $src = "";
 
 if ($tab == "notasservico") {
-    $src = "notasservico/";
+    $src = "notasservico/index.php";
 }
 if ($tab == "configuracao") {
     $src = "configuracao/";
     if (isset($_GET['stab'])) {
         $src = $src . "?stab=" . $_GET['stab'];
     }
-
-
 }
 
 if ($src !== "") {
     //echo URLROOT ."/services/". $src;
-    ?>
+?>
     <div class="diviFrame">
-        <iframe class="iFrame container-fluid " id="iFrameTab"
-            src="<?php echo URLROOT ?>/services/<?php echo $src ?>"></iframe>
+        <iframe class="iFrame container-fluid " id="iFrameTab" src="<?php echo URLROOT ?>/notas/<?php echo $src ?>"></iframe>
     </div>
-    <?php
+<?php
 }
 ?>
 
