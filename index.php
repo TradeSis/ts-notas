@@ -17,6 +17,7 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
     <title>Notas</title>
 
+
 </head>
 
 <body>
@@ -89,7 +90,6 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
                     $src = $src . "?stab=" . $_GET['stab'];
                 }
             }
-
             if ($src !== "") { ?>
                 <div class="diviFrame">
                     <iframe class="iFrame container-fluid " id="iFrameTab" src="<?php echo URLROOT ?>/notas/<?php echo $src ?>"></iframe>
