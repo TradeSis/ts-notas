@@ -66,10 +66,10 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
                         $getTab = '';
                     } ?>
                     <select class="form-select mt-2" id="subtabNotas" style="color:#000; width:160px;text-align:center;">
-                        <option value="<?php echo URLROOT ?>/notas/index.php?tab=notasservico" 
+                        <option value="<?php echo URLROOT ?>/notas/?tab=notasservico" 
                         <?php if ($getTab == "notasservico") {echo " selected ";} ?>>Nota Serviço</option>
 
-                        <option value="<?php echo URLROOT ?>/notas/index.php?tab=configuracao" 
+                        <option value="<?php echo URLROOT ?>/notas/?tab=configuracao" 
                         <?php if ($getTab == "configuracao") {echo " selected ";} ?>>Configurações</option>
                     </select>
                 </div>
@@ -81,7 +81,7 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
             $src = "";
 
             if ($tab == "notasservico") {
-                $src = "notasservico/index.php";
+                $src = "notasservico/";
             }
             if ($tab == "configuracao") {
                 $src = "configuracao/";
