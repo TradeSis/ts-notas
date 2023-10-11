@@ -1,23 +1,28 @@
 <?php
-
-include_once(__DIR__ . '/../head.php');
+// lucas 11102023 novo padrao
+include_once(__DIR__ . '/../header.php');
 include_once(__DIR__ . '/../database/notasservico.php');
 include_once(ROOT . '/cadastros/database/clientes.php');
 
 $clientes = buscaClientes();
-/* echo json_encode($clientes); */
 ?>
+<!doctype html>
+<html lang="pt-BR">
 
-</html>
+<head>
 
-<body class="bg-transparent">
+    <?php include_once ROOT . "/vendor/head_css.php"; ?>
 
-    <nav id="menuFiltros" class="menuFiltros" style="width: 170px;margin-top:-90px;margin-left:11px">
-        <div class="titulo"><span>Filtrar por:</span></div>
-        <ul>
-            <li class="col-sm-12">
-                <form class="d-flex" action="" method="post" style="text-align: right;">
-                    <select class="form-control" name="idCliente" id="FiltroClientes" style="font-size: 14px; width: 150px; height: 35px">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- MENUFILTROS -->
+        <nav class="ts-menuFiltros">
+            <label class="pl-2" for="">Filtrar por:</label>
+            <div class="col-12">
+                <form class="d-flex" action="" method="post">
+                    <select class="form-control" name="idCliente" id="FiltroClientes" >
                         <option value="<?php echo null ?>"><?php echo "Cliente"  ?></option>
                         <?php
                         foreach ($clientes as $cliente) {
@@ -30,11 +35,10 @@ $clientes = buscaClientes();
                         <?php  } ?>
                     </select>
                 </form>
-            </li>
-
-            <li class="col-sm-12">
-                <form class="d-flex" action="" method="post" style="text-align: right;">
-                    <select class="form-control" name="statusNota" id="FiltroStatusNota" style="font-size: 14px; width: 150px; height: 35px">
+            </div>
+            <div class="col-12">
+                <form class="d-flex" action="" method="post">
+                    <select class="form-control" name="statusNota" id="FiltroStatusNota">
                         <option value="<?php echo null ?>"><?php echo "statusNota"  ?></option>
                         <option value="0">Aberto</option>
                         <option value="1">Emitida</option>
@@ -42,30 +46,33 @@ $clientes = buscaClientes();
                         <option value="3">Cancelada</option>
                     </select>
                 </form>
-            </li>
-        </ul>
-
-        <div class="col-sm" style="text-align:right; color: #fff">
-            <a onClick="limpar()" role=" button" class="btn btn-sm" style="background-color:#84bfc3; ">Limpar</a>
-        </div>
-    </nav>
+            </div>
 
 
-    <div class="container-fluid text-center mt-4">
+            <div class="col-sm text-end mt-2">
+                <a onClick="limpar()" role=" button" class="btn btn-sm bg-info text-white">Limpar</a>
+            </div>
+        </nav>
 
         <div class="row">
-            <div class=" btnAbre">
-                <span style="font-size: 25px;font-family: 'Material Symbols Outlined'!important;" class="material-symbols-outlined">
-                    filter_alt
-                </span>
+            <BR> <!-- MENSAGENS/ALERTAS -->
+        </div>
+        <div class="row">
+            <BR> <!-- BOTOES AUXILIARES -->
+        </div>
+        <div class="row">
+            <div class="col-6 order-1 col-sm-6  col-md-6 order-md-1 col-lg-1 order-lg-1 mt-3">
+                <button type="button" class="ts-btnFiltros btn btn-sm"><span class="material-symbols-outlined">
+                        filter_alt
+                    </span></button>
 
             </div>
 
-            <div class="col-sm-3 ml-2">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-2 order-lg-2 mt-4">
                 <h2 class="tituloTabela">Notas Serviço</h2>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-5 order-lg-3">
                 <div class="input-group">
                     <input type="text" class="form-control" id="buscanotas" placeholder="Buscar por id ou numero da nota">
                     <span class="input-group-btn">
@@ -76,212 +83,215 @@ $clientes = buscaClientes();
                 </div>
             </div>
 
-            <div class="col-sm" style="text-align:right">
+
+            <div class="col-6 order-2 col-sm-6 col-md-6 order-md-2 col-lg-4 order-lg-4 mt-3 text-end" style=" margin-left:-30px ">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
             </div>
         </div>
 
+        <div class="table mt-2 ts-divTabela ts-tableFiltros">
+            <table class="table table-hover table-sm align-middle">
+                <thead class="ts-headertabelafixo">
+                    <tr>
+                        <th>idNotaServico</th>
+                        <th>idCliente</th>
+                        <th>dataFaturamento</th>
+                        <th>dataEmissao</th>
+                        <th>serieNota</th>
+                        <th>numeroNota</th>
+                        <th>serieRPS</th>
+                        <th>numeroRPS</th>
+                        <th>valorNota</th>
+                        <th>statusNota</th>
+                        <th>condicao</th>
+                        <th colspan="2">Ação</th>
+                    </tr>
+                </thead>
 
-        <div class="card mt-2 text-center">
-            <div class="table table-sm table-hover table-striped table-wrapper-scroll-y my-custom-scrollbar diviFrame">
-                <table class="table">
-                    <thead class="cabecalhoTabela">
-                        <tr>
-                            <th>idNotaServico</th>
-                            <th>idCliente</th>
-                            <th>dataFaturamento</th>
-                            <th>dataEmissao</th>
-                            <th>serieNota</th>
-                            <th>numeroNota</th>
-                            <th>serieRPS</th>
-                            <th>numeroRPS</th>
-                            <th>valorNota</th>
-                            <th>statusNota</th>
-                            <th>condicao</th>
-                            <th colspan="2">Ação</th>
-                        </tr>
-                    </thead>
+                <tbody id='dados' class="fonteCorpo">
 
-                    <tbody id='dados' class="fonteCorpo">
-
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
-    </div>
 
 
-    <!--------- INSERIR --------->
-    <div class="modal fade bd-example-modal-lg" id="inserirModal" tabindex="-1" role="dialog" aria-labelledby="inserirModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Inserir Nota</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="container-fluid">
-                    <form method="post" id="inserirFormNotaServico">
-                        <div class="row">
-                            <div class="col-md-6 form-group-select">
-                                <div class="form-group">
-                                    <label class="labelForm">Cliente</label>
-                                    <select class="select form-control" name="idCliente" style="margin-top: -5px;">
-                                        <?php
-                                        foreach ($clientes as $cliente) {
-                                        ?>
-                                            <option value="<?php echo $cliente['idCliente'] ?>"><?php echo $cliente['nomeCliente'] ?></option>
-                                        <?php  } ?>
-                                    </select>
+
+        <!--------- INSERIR --------->
+        <div class="modal fade bd-example-modal-lg" id="inserirModal" tabindex="-1" role="dialog" aria-labelledby="inserirModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Inserir Nota</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="container-fluid">
+                        <form method="post" id="inserirFormNotaServico">
+                            <div class="row">
+                                <div class="col-md-6 form-group-select">
+                                    <div class="form-group">
+                                        <label class="labelForm">Cliente</label>
+                                        <select class="select form-control" name="idCliente" style="margin-top: -5px;">
+                                            <?php
+                                            foreach ($clientes as $cliente) {
+                                            ?>
+                                                <option value="<?php echo $cliente['idCliente'] ?>"><?php echo $cliente['nomeCliente'] ?></option>
+                                            <?php  } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm' style="margin-top: -5px;">dataFaturamento</label>
+                                    <input type="date" class="form-control" name="dataFaturamento" autocomplete="off" required style="margin-top: -5px;">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm' style="margin-top: -5px;">dataEmissao</label>
+                                    <input type="date" class="form-control" name="dataEmissao" autocomplete="off" style="margin-top: -5px;">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class='labelForm' style="margin-top: -5px;">serieNota</label>
+                                    <input type="text" class="form-control" name="serieNota" autocomplete="off" style="margin-top: -5px;">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class='labelForm' style="margin-top: -5px;">numeroNota</label>
+                                    <input type="text" class="form-control" name="numeroNota" autocomplete="off" style="margin-top: -5px;">
                                 </div>
                             </div>
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm' style="margin-top: -5px;">dataFaturamento</label>
-                                <input type="date" class="form-control" name="dataFaturamento" autocomplete="off" required style="margin-top: -5px;">
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm' style="margin-top: -5px;">serieRPS</label>
+                                    <input type="text" class="form-control" name="serieRPS" autocomplete="off" style="margin-top: -5px;">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm' style="margin-top: -5px;">numeroRPS</label>
+                                    <input type="text" class="form-control" name="numeroRPS" autocomplete="off" style="margin-top: -5px;">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm' style="margin-top: -5px;">valorNota</label>
+                                    <input type="text" class="form-control" name="valorNota" autocomplete="off" required style="margin-top: -5px;">
+                                </div>
+                                <div class="col-md-3 form-group-select">
+                                    <div class="form-group">
+                                        <label class="labelForm">statusNota</label>
+                                        <select class="select form-control" name="statusNota" autocomplete="off" required style="margin-top: -5px;">
+                                            <option value="0">Aberto</option>
+                                            <option value="1">Emitida</option>
+                                            <option value="2">Recebida</option>
+                                            <option value="3">Cancelada</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm' style="margin-top: -5px;">dataEmissao</label>
-                                <input type="date" class="form-control" name="dataEmissao" autocomplete="off" style="margin-top: -5px;">
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label class='labelForm' style="margin-top: -5px;">condicao</label>
+                                    <input type="text" class="form-control" name="condicao" autocomplete="off" style="margin-top: -5px;">
+                                </div>
                             </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <label class='labelForm' style="margin-top: -5px;">serieNota</label>
-                                <input type="text" class="form-control" name="serieNota" autocomplete="off" style="margin-top: -5px;">
+                            <div class="card-footer bg-transparent text-end">
+                                <button type="submit" class="btn btn-success">Cadastrar</button>
                             </div>
-                            <div class="col-md-6 form-group">
-                                <label class='labelForm' style="margin-top: -5px;">numeroNota</label>
-                                <input type="text" class="form-control" name="numeroNota" autocomplete="off" style="margin-top: -5px;">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--------- ALTERAR --------->
+        <div class="modal fade bd-example-modal-lg" id="alterarmodal" tabindex="-1" role="dialog" aria-labelledby="alterarmodalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Alterar Nota</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="container">
+                        <form method="post" id="alterarFormNotaServico">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="labelForm">idNotaServico</label>
+                                        <input type="text" class="data select form-control" id="idNotaServico" name="idNotaServico" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="labelForm">Cliente</label>
+                                        <input type="text" class="data select form-control" name="nomeCliente" id="nomeCliente" disabled>
+                                        <input type="hidden" class="data select form-control" name="idCliente" id="idCliente">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm'>dataFaturamento</label>
+                                    <input type="date" class="data select form-control" name="dataFaturamento" id="dataFaturamento" required>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm'>dataEmissao</label>
+                                    <input type="date" class="data select form-control" name="dataEmissao" id="dataEmissao">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm' style="margin-top: -5px;">serieRPS</label>
-                                <input type="text" class="form-control" name="serieRPS" autocomplete="off" style="margin-top: -5px;">
+                            <div class="row" style="margin-top: -55px;">
+                                <div class="col-md-6 form-group">
+                                    <label class='labelForm'>serieNota</label>
+                                    <input type="text" class="data select form-control" name="serieNota" id="serieNota">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class='labelForm'>numeroNota</label>
+                                    <input type="text" class="data select form-control" name="numeroNota" id="numeroNotabd">
+                                </div>
                             </div>
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm' style="margin-top: -5px;">numeroRPS</label>
-                                <input type="text" class="form-control" name="numeroRPS" autocomplete="off" style="margin-top: -5px;">
-                            </div>
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm' style="margin-top: -5px;">valorNota</label>
-                                <input type="text" class="form-control" name="valorNota" autocomplete="off" required style="margin-top: -5px;">
-                            </div>
-                            <div class="col-md-3 form-group-select">
-                                <div class="form-group">
-                                    <label class="labelForm">statusNota</label>
-                                    <select class="select form-control" name="statusNota" autocomplete="off" required style="margin-top: -5px;">
+                            <div class="row" style="margin-top: -55px;">
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm'>serieRPS</label>
+                                    <input type="text" class="data select form-control" name="serieRPS" id="serieRPS">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm'>numeroRPS</label>
+                                    <input type="text" class="data select form-control" name="numeroRPS" id="numeroRPS">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm'>valorNota</label>
+                                    <input type="text" class="data select form-control" name="valorNota" id="valorNota" required>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label class='labelForm'>statusNota</label>
+                                    <select class="form-control" name="statusNota" id="statusNota" style="margin-top: -9px;">
                                         <option value="0">Aberto</option>
                                         <option value="1">Emitida</option>
                                         <option value="2">Recebida</option>
                                         <option value="3">Cancelada</option>
                                     </select>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 form-group">
-                                <label class='labelForm' style="margin-top: -5px;">condicao</label>
-                                <input type="text" class="form-control" name="condicao" autocomplete="off" style="margin-top: -5px;">
-                            </div>
-                        </div>
 
-                        <div class="card-footer bg-transparent" style="text-align:right">
-                            <button type="submit"  class="btn btn-success">Cadastrar</button>
-                        </div>
-                    </form>
+                            </div>
+                            <div class="row" style="margin-top: -55px;">
+                                <div class="col-md-12 form-group">
+                                    <label class='labelForm'>condicao</label>
+                                    <input type="text" class="data select form-control" name="condicao" id="condicao">
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent text-end">
+                                <button type="submit" class="btn btn-success">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!--------- ALTERAR --------->
-    <div class="modal fade bd-example-modal-lg" id="alterarmodal" tabindex="-1" role="dialog" aria-labelledby="alterarmodalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Alterar Nota</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="container">
-                    <form method="post" id="alterarFormNotaServico">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="labelForm">idNotaServico</label>
-                                    <input type="text" class="data select form-control" id="idNotaServico" name="idNotaServico" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="labelForm">Cliente</label>
-                                    <input type="text" class="data select form-control" name="nomeCliente" id="nomeCliente" disabled>
-                                    <input type="text" class="data select form-control" name="idCliente" id="idCliente" style="display: none;">
-                                </div>
-                            </div>
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm'>dataFaturamento</label>
-                                <input type="date" class="data select form-control" name="dataFaturamento" id="dataFaturamento" required>
-                            </div>
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm'>dataEmissao</label>
-                                <input type="date" class="data select form-control" name="dataEmissao" id="dataEmissao">
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: -55px;">
-                            <div class="col-md-6 form-group">
-                                <label class='labelForm'>serieNota</label>
-                                <input type="text" class="data select form-control" name="serieNota" id="serieNota">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label class='labelForm'>numeroNota</label>
-                                <input type="text" class="data select form-control" name="numeroNota" id="numeroNotabd">
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: -55px;">
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm'>serieRPS</label>
-                                <input type="text" class="data select form-control" name="serieRPS" id="serieRPS">
-                            </div>
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm'>numeroRPS</label>
-                                <input type="text" class="data select form-control" name="numeroRPS" id="numeroRPS">
-                            </div>
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm'>valorNota</label>
-                                <input type="text" class="data select form-control" name="valorNota" id="valorNota" required>
-                            </div>
+    </div><!--container-fluid-->
 
-                            <div class="col-md-3 form-group">
-                                <label class='labelForm'>statusNota</label>
-                                <select class="form-control" name="statusNota" id="statusNota" style="margin-top: -9px;">
-                                    <option value="0">Aberto</option>
-                                    <option value="1">Emitida</option>
-                                    <option value="2">Recebida</option>
-                                    <option value="3">Cancelada</option>
-                                </select>
-                            </div>
+    <!-- LOCAL PARA COLOCAR OS JS -->
 
-                        </div>
-                        <div class="row" style="margin-top: -55px;">
-                            <div class="col-md-12 form-group">
-                                <label class='labelForm'>condicao</label>
-                                <input type="text" class="data select form-control" name="condicao" id="condicao">
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent" style="text-align:right">
-                            <button type="submit"  class="btn btn-success">Salvar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
     <script>
         buscar($("#FiltroClientes").val(), $("#buscanotas").val(), $("#FiltroStatusNota").val());
@@ -292,7 +302,7 @@ $clientes = buscaClientes();
         }
 
         function buscar(idCliente, buscanotas, statusNota) {
-            //alert (statusNota);
+            //alert (buscanotas);
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
@@ -367,7 +377,7 @@ $clientes = buscaClientes();
             buscar($("#FiltroClientes").val(), $("#buscanotas").val(), $("#FiltroStatusNota").val());
         })
 
-        $("#FiltroStatusNota").click(function() {
+        $("#FiltroStatusNota").change(function() {
             buscar($("#FiltroClientes").val(), $("#buscanotas").val(), $("#FiltroStatusNota").val());
         })
 
@@ -406,11 +416,15 @@ $clientes = buscaClientes();
             });
         });
 
-        $('.btnAbre').click(function() {
+       /*  $('.btnAbre').click(function() {
             $('.menuFiltros').toggleClass('mostra');
             $('.diviFrame').toggleClass('mostra');
+        }); */
+        /* Novo script para menu filtros */
+        $('.ts-btnFiltros').click(function() {
+            $('.ts-menuFiltros').toggleClass('mostra');
+            $('.ts-tableFiltros').toggleClass('mostra');
         });
-
 
 
         var inserirModal = document.getElementById("inserirModal");
@@ -443,7 +457,7 @@ $clientes = buscaClientes();
                 });
             });
 
-          $("#alterarFormNotaServico").submit(function(event) {
+            $("#alterarFormNotaServico").submit(function(event) {
                 event.preventDefault();
                 var formData = new FormData(this);
                 $.ajax({
@@ -454,7 +468,7 @@ $clientes = buscaClientes();
                     contentType: false,
                     success: refreshPage,
                 });
-            }); 
+            });
 
             function refreshPage() {
                 window.location.reload();
@@ -462,6 +476,7 @@ $clientes = buscaClientes();
         });
     </script>
 
+    <!-- LOCAL PARA COLOCAR OS JS -FIM -->
 
 </body>
 
