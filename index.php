@@ -43,13 +43,13 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
                                 $tab = 'notasservico';
                             } ?>
                             <li class="nav-item mr-1">
-                                <a class="nav-link1 nav-link <?php if ($tab == "notasservico") {echo " active ";} ?>" 
+                                <a class="nav-link <?php if ($tab == "notasservico") {echo " active ";} ?>" 
                                 href="?tab=notasservico" role="tab">Notas Serviço</a>
                             </li>
                         <?php }
                         if ($nivelMenu >= 4) { ?>
                             <li class="nav-item mr-1">
-                                <a class="nav-link1 nav-link 
+                                <a class="nav-link 
                                 <?php if ($tab == "configuracao") {echo " active ";} ?>" 
                                 href="?tab=configuracao" role="tab" data-toggle="tooltip" data-placement="top" title="Configurações"><i class="bi bi-gear"></i> Configurações</a>
                             </li>
