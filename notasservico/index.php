@@ -22,7 +22,7 @@ $clientes = buscaClientes();
             <label class="pl-2" for="">Filtrar por:</label>
             <div class="col-12">
                 <form class="d-flex" action="" method="post">
-                    <select class="form-control" name="idCliente" id="FiltroClientes" >
+                    <select class="form-control" name="idCliente" id="FiltroClientes">
                         <option value="<?php echo null ?>"><?php echo "Cliente"  ?></option>
                         <?php
                         foreach ($clientes as $cliente) {
@@ -74,9 +74,9 @@ $clientes = buscaClientes();
 
             <div class="col-12 col-sm-12 col-md-12 col-lg-5 order-lg-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="buscanotas" placeholder="Buscar por id ou numero da nota">
+                    <input type="text" class="form-control ts-input mt-4" id="buscanotas" placeholder="Buscar por id ou numero da nota">
                     <span class="input-group-btn">
-                        <button class="btn btn-primary mt-2" id="buscar" type="button"><span style="font-size: 20px;font-family: 'Material Symbols Outlined'!important;" class="material-symbols-outlined">
+                        <button class="btn btn-primary mt-4" id="buscar" type="button"><span style="font-size: 20px;font-family: 'Material Symbols Outlined'!important;" class="material-symbols-outlined">
                                 search
                             </span></button>
                     </span>
@@ -85,7 +85,7 @@ $clientes = buscaClientes();
 
 
             <div class="col-6 order-2 col-sm-6 col-md-6 order-md-2 col-lg-4 order-lg-4 mt-3 text-end" style=" margin-left:-30px ">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
             </div>
         </div>
 
@@ -117,153 +117,142 @@ $clientes = buscaClientes();
 
 
         <!--------- INSERIR --------->
-        <div class="modal fade bd-example-modal-lg" id="inserirModal" tabindex="-1" role="dialog" aria-labelledby="inserirModalLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="inserirModal" tabindex="-1" aria-labelledby="inserirModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Inserir Nota</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h5 class="modal-title">Inserir Nota</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="container-fluid">
+                    <div class="modal-body">
                         <form method="post" id="inserirFormNotaServico">
-                            <div class="row">
-                                <div class="col-md-6 form-group-select">
-                                    <div class="form-group">
-                                        <label class="labelForm">Cliente</label>
-                                        <select class="select form-control" name="idCliente" style="margin-top: -5px;">
-                                            <?php
-                                            foreach ($clientes as $cliente) {
-                                            ?>
-                                                <option value="<?php echo $cliente['idCliente'] ?>"><?php echo $cliente['nomeCliente'] ?></option>
-                                            <?php  } ?>
-                                        </select>
-                                    </div>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <label class="form-label ts-label">Cliente</label>
+                                    <select class="form-select ts-input" name="idCliente">
+                                        <?php
+                                        foreach ($clientes as $cliente) {
+                                        ?>
+                                            <option value="<?php echo $cliente['idCliente'] ?>"><?php echo $cliente['nomeCliente'] ?></option>
+                                        <?php  } ?>
+                                    </select>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm' style="margin-top: -5px;">dataFaturamento</label>
-                                    <input type="date" class="form-control" name="dataFaturamento" autocomplete="off" required style="margin-top: -5px;">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>dataFaturamento</label>
+                                    <input type="date" class="form-control ts-input" name="dataFaturamento" autocomplete="off" required>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm' style="margin-top: -5px;">dataEmissao</label>
-                                    <input type="date" class="form-control" name="dataEmissao" autocomplete="off" style="margin-top: -5px;">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>dataEmissao</label>
+                                    <input type="date" class="form-control ts-input" name="dataEmissao" autocomplete="off">
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label class='labelForm' style="margin-top: -5px;">serieNota</label>
-                                    <input type="text" class="form-control" name="serieNota" autocomplete="off" style="margin-top: -5px;">
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label class='form-label ts-label'>serieNota</label>
+                                    <input type="text" class="form-control ts-input" name="serieNota" autocomplete="off">
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <label class='labelForm' style="margin-top: -5px;">numeroNota</label>
-                                    <input type="text" class="form-control" name="numeroNota" autocomplete="off" style="margin-top: -5px;">
+                                <div class="col-md-6">
+                                    <label class='form-label ts-label'>numeroNota</label>
+                                    <input type="text" class="form-control ts-input" name="numeroNota" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm' style="margin-top: -5px;">serieRPS</label>
-                                    <input type="text" class="form-control" name="serieRPS" autocomplete="off" style="margin-top: -5px;">
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>serieRPS</label>
+                                    <input type="text" class="form-control ts-input" name="serieRPS" autocomplete="off">
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm' style="margin-top: -5px;">numeroRPS</label>
-                                    <input type="text" class="form-control" name="numeroRPS" autocomplete="off" style="margin-top: -5px;">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>numeroRPS</label>
+                                    <input type="text" class="form-control ts-input" name="numeroRPS" autocomplete="off">
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm' style="margin-top: -5px;">valorNota</label>
-                                    <input type="text" class="form-control" name="valorNota" autocomplete="off" required style="margin-top: -5px;">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>valorNota</label>
+                                    <input type="text" class="form-control ts-input" name="valorNota" autocomplete="off" required>
                                 </div>
                                 <div class="col-md-3 form-group-select">
-                                    <div class="form-group">
-                                        <label class="labelForm">statusNota</label>
-                                        <select class="select form-control" name="statusNota" autocomplete="off" required style="margin-top: -5px;">
-                                            <option value="0">Aberto</option>
-                                            <option value="1">Emitida</option>
-                                            <option value="2">Recebida</option>
-                                            <option value="3">Cancelada</option>
-                                        </select>
-                                    </div>
+                                    <label class="form-label ts-label">statusNota</label>
+                                    <select class="form-select ts-input" name="statusNota" autocomplete="off" required>
+                                        <option value="0">Aberto</option>
+                                        <option value="1">Emitida</option>
+                                        <option value="2">Recebida</option>
+                                        <option value="3">Cancelada</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <label class='labelForm' style="margin-top: -5px;">condicao</label>
-                                    <input type="text" class="form-control" name="condicao" autocomplete="off" style="margin-top: -5px;">
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <label class='form-label ts-label'>condicao</label>
+                                    <input type="text" class="form-control ts-input" name="condicao" autocomplete="off">
                                 </div>
                             </div>
-
-                            <div class="card-footer bg-transparent text-end">
-                                <button type="submit" class="btn btn-success">Cadastrar</button>
-                            </div>
-                        </form>
                     </div>
+                    <div class="modal-footer">
+                        <div class="card-footer bg-transparent text-end">
+                            <button type="submit" class="btn btn-success">Cadastrar</button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
 
         <!--------- ALTERAR --------->
-        <div class="modal fade bd-example-modal-lg" id="alterarmodal" tabindex="-1" role="dialog" aria-labelledby="alterarmodalLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="alterarmodal" tabindex="-1" aria-labelledby="alterarmodalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Alterar Nota</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="container">
+                    <div class="modal-body">
                         <form method="post" id="alterarFormNotaServico">
-                            <div class="row">
+                            <div class="row mt-3">
                                 <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label class="labelForm">idNotaServico</label>
-                                        <input type="text" class="data select form-control" id="idNotaServico" name="idNotaServico" readonly>
-                                    </div>
+                                    <label class="form-label ts-label">idNotaServico</label>
+                                    <input type="text" class="form-control ts-input" id="idNotaServico" name="idNotaServico" readonly>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="labelForm">Cliente</label>
-                                        <input type="text" class="data select form-control" name="nomeCliente" id="nomeCliente" disabled>
-                                        <input type="hidden" class="data select form-control" name="idCliente" id="idCliente">
-                                    </div>
+                                    <label class="form-label ts-label">Cliente</label>
+                                    <input type="text" class="form-control ts-input" name="nomeCliente" id="nomeCliente" disabled>
+                                    <input type="hidden" class="form-control ts-input" name="idCliente" id="idCliente">
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm'>dataFaturamento</label>
-                                    <input type="date" class="data select form-control" name="dataFaturamento" id="dataFaturamento" required>
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>dataFaturamento</label>
+                                    <input type="date" class="form-control ts-input" name="dataFaturamento" id="dataFaturamento" required>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm'>dataEmissao</label>
-                                    <input type="date" class="data select form-control" name="dataEmissao" id="dataEmissao">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>dataEmissao</label>
+                                    <input type="date" class="form-control ts-input" name="dataEmissao" id="dataEmissao">
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: -55px;">
-                                <div class="col-md-6 form-group">
-                                    <label class='labelForm'>serieNota</label>
-                                    <input type="text" class="data select form-control" name="serieNota" id="serieNota">
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label class='form-label ts-label'>serieNota</label>
+                                    <input type="text" class="form-control ts-input" name="serieNota" id="serieNota">
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <label class='labelForm'>numeroNota</label>
-                                    <input type="text" class="data select form-control" name="numeroNota" id="numeroNotabd">
+                                <div class="col-md-6">
+                                    <label class='form-label ts-label'>numeroNota</label>
+                                    <input type="text" class="form-control ts-input" name="numeroNota" id="numeroNotabd">
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: -55px;">
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm'>serieRPS</label>
-                                    <input type="text" class="data select form-control" name="serieRPS" id="serieRPS">
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>serieRPS</label>
+                                    <input type="text" class="form-control ts-input" name="serieRPS" id="serieRPS">
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm'>numeroRPS</label>
-                                    <input type="text" class="data select form-control" name="numeroRPS" id="numeroRPS">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>numeroRPS</label>
+                                    <input type="text" class="form-control ts-input" name="numeroRPS" id="numeroRPS">
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm'>valorNota</label>
-                                    <input type="text" class="data select form-control" name="valorNota" id="valorNota" required>
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>valorNota</label>
+                                    <input type="text" class="form-control ts-input" name="valorNota" id="valorNota" required>
                                 </div>
 
-                                <div class="col-md-3 form-group">
-                                    <label class='labelForm'>statusNota</label>
-                                    <select class="form-control" name="statusNota" id="statusNota" style="margin-top: -9px;">
+                                <div class="col-md-3">
+                                    <label class='form-label ts-label'>statusNota</label>
+                                    <select class="form-select ts-input" name="statusNota" id="statusNota">
                                         <option value="0">Aberto</option>
                                         <option value="1">Emitida</option>
                                         <option value="2">Recebida</option>
@@ -272,17 +261,19 @@ $clientes = buscaClientes();
                                 </div>
 
                             </div>
-                            <div class="row" style="margin-top: -55px;">
-                                <div class="col-md-12 form-group">
-                                    <label class='labelForm'>condicao</label>
-                                    <input type="text" class="data select form-control" name="condicao" id="condicao">
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <label class='form-label ts-label'>condicao</label>
+                                    <input type="text" class="form-control ts-input" name="condicao" id="condicao">
                                 </div>
                             </div>
-                            <div class="card-footer bg-transparent text-end">
-                                <button type="submit" class="btn btn-success">Salvar</button>
-                            </div>
-                        </form>
                     </div>
+                    <div class="modal-footer">
+                        <div class="card-footer bg-transparent text-end">
+                            <button type="submit" class="btn btn-success">Salvar</button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -293,7 +284,7 @@ $clientes = buscaClientes();
 
     <?php include_once ROOT . "/vendor/footer_js.php"; ?>
     <!-- script para menu de filtros -->
-    <script src= "<?php echo URLROOT ?>/sistema/js/filtroTabela.js"></script>
+    <script src="<?php echo URLROOT ?>/sistema/js/filtroTabela.js"></script>
 
     <script>
         buscar($("#FiltroClientes").val(), $("#buscanotas").val(), $("#FiltroStatusNota").val());
@@ -363,7 +354,7 @@ $clientes = buscaClientes();
                         linha = linha + "<td>" + object.valorNota + "</td>";
                         linha = linha + "<td>" + novoStatusNota + "</td>";
                         linha = linha + "<td>" + object.condicao + "</td>";
-                        linha = linha + "<td>" + "<button type='button' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#alterarmodal' data-idNotaServico='" + object.idNotaServico + "'><i class='bi bi-pencil-square'></i></button>"
+                        linha = linha + "<td>" + "<button type='button' class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#alterarmodal' data-idNotaServico='" + object.idNotaServico + "'><i class='bi bi-pencil-square'></i></button>"
                         linha = linha + "</tr>";
                     }
                     $("#dados").html(linha);
@@ -389,7 +380,7 @@ $clientes = buscaClientes();
             }
         });
 
-        $(document).on('click', 'button[data-target="#alterarmodal"]', function() {
+        $(document).on('click', 'button[data-bs-target="#alterarmodal"]', function() {
             var idNotaServico = $(this).attr("data-idNotaServico");
             //alert(idNotaServico)
             $.ajax({
@@ -418,12 +409,12 @@ $clientes = buscaClientes();
             });
         });
 
-   
+
 
 
         var inserirModal = document.getElementById("inserirModal");
 
-        var inserirBtn = document.querySelector("button[data-target='#inserirModal']");
+        var inserirBtn = document.querySelector("button[data-bs-target='#inserirModal']");
 
         inserirBtn.onclick = function() {
             inserirModal.style.display = "block";
