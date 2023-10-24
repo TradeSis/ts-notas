@@ -90,7 +90,7 @@ $clientes = buscaClientes();
         </div>
 
         <div class="table mt-2 ts-divTabela ts-tableFiltros">
-            <table class="table table-hover table-sm align-middle">
+            <table class="table table-hover table-sm">
                 <thead class="ts-headertabelafixo">
                     <tr>
                         <th>idNotaServico</th>
