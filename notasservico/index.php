@@ -17,9 +17,43 @@ $clientes = buscaClientes();
 
 <body>
     <div class="container-fluid">
+
+        <div class="row">
+            <!-- MENSAGENS/ALERTAS -->
+        </div>
+        <div class="row">
+            <!-- BOTOES AUXILIARES -->
+        </div>
+
+        <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
+
+            <div class="col-2 col-lg-1 order-lg-1">
+                <button class="btn btn-outline-secondary ts-btnFiltros" type="button"><i class="bi bi-funnel"></i></button>
+            </div>
+
+            <div class="col-4 col-lg-3 order-lg-2">
+
+                <h2 class="ts-tituloPrincipal">Notas Serviço</h2>
+                <span>Filtro Aplicado</span>
+
+            </div>
+            <div class="col-6 col-lg-2 order-lg-3">
+                <!-- FILTRO -->
+            </div>
+            <div class="col-12 col-lg-6 order-lg-4">
+                <div class="input-group">
+                    <input type="text" class="form-control ts-input" id="buscanotas" placeholder="Buscar por id ou numero da nota">
+                    <button class="btn btn-primary rounded" type="button" id="buscar"><i class="bi bi-search"></i></button>
+                    <button type="button" class="ms-4 btn btn-success" data-bs-toggle="modal" data-bs-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
+                </div>
+            </div>
+
+        </div>
+
+
         <!-- MENUFILTROS -->
-        <nav class="ts-menuFiltros">
-            <label class="pl-2" for="">Filtrar por:</label>
+        <div class="ts-menuFiltros mt-2 px-3">
+        <label>Filtrar por:</label>
             <div class="col-12">
                 <form class="d-flex" action="" method="post">
                     <select class="form-control" name="idCliente" id="FiltroClientes">
@@ -36,7 +70,7 @@ $clientes = buscaClientes();
                     </select>
                 </form>
             </div>
-            <div class="col-12">
+            <div class="col-12 mt-2">
                 <form class="d-flex" action="" method="post">
                     <select class="form-control" name="statusNota" id="FiltroStatusNota">
                         <option value="<?php echo null ?>"><?php echo "statusNota"  ?></option>
@@ -52,45 +86,10 @@ $clientes = buscaClientes();
             <div class="col-sm text-end mt-2">
                 <a onClick="limpar()" role=" button" class="btn btn-sm bg-info text-white">Limpar</a>
             </div>
-        </nav>
-
-        <div class="row">
-            <BR> <!-- MENSAGENS/ALERTAS -->
-        </div>
-        <div class="row">
-            <BR> <!-- BOTOES AUXILIARES -->
-        </div>
-        <div class="row">
-            <div class="col-6 order-1 col-sm-6  col-md-6 order-md-1 col-lg-1 order-lg-1 mt-3">
-                <button type="button" class="ts-btnFiltros btn btn-sm"><span class="material-symbols-outlined">
-                        filter_alt
-                    </span></button>
-
-            </div>
-
-            <div class="col-12 col-sm-12 col-md-12 col-lg-2 order-lg-2 mt-4">
-                <h2 class="ts-tituloPrincipal">Notas Serviço</h2>
-            </div>
-
-            <div class="col-12 col-sm-12 col-md-12 col-lg-5 order-lg-3">
-                <div class="input-group">
-                    <input type="text" class="form-control ts-input mt-4" id="buscanotas" placeholder="Buscar por id ou numero da nota">
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary mt-4" id="buscar" type="button"><span style="font-size: 20px;font-family: 'Material Symbols Outlined'!important;" class="material-symbols-outlined">
-                                search
-                            </span></button>
-                    </span>
-                </div>
-            </div>
-
-
-            <div class="col-6 order-2 col-sm-6 col-md-6 order-md-2 col-lg-4 order-lg-4 mt-3 text-end" style=" margin-left:-30px ">
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
-            </div>
         </div>
 
-        <div class="table mt-2 ts-divTabela ts-tableFiltros">
-            <table class="table table-hover table-sm">
+        <div class="table mt-2 ts-divTabela ts-tableFiltros text-center">
+            <table class="table table-sm table-hover">
                 <thead class="ts-headertabelafixo">
                     <tr>
                         <th>idNotaServico</th>
