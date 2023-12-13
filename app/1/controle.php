@@ -58,7 +58,15 @@ if ($metodo == "POST") {
       include 'notasservico_alterar.php';
       break;
 
-    
+    case "emitirNota":
+      include 'emitirnota.php';
+      break;
+
+    case "visualizarNota":
+      include 'visualizarNota.php';
+      break;
+
+      default:
       $jsonSaida = json_decode(json_encode(
         array(
           "status" => "400",

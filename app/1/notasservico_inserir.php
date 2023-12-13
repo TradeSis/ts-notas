@@ -26,20 +26,22 @@ if (isset($LOG_CAMINHO)) {
 $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
 
-if (isset($jsonEntrada['numeroNota'])) {
-    $idCliente = $jsonEntrada['idCliente'];
-    $dataFaturamento = $jsonEntrada['dataFaturamento'];
-    $dataEmissao = $jsonEntrada['dataEmissao'];
-    $serieNota = $jsonEntrada['serieNota'];
-    $numeroNota = $jsonEntrada['numeroNota'];
-    $serieRPS = $jsonEntrada['serieRPS'];
-    $numeroRPS = $jsonEntrada['numeroRPS'];
-    $valorNota = $jsonEntrada['valorNota'];
-    $statusNota = $jsonEntrada['statusNota'];
-    $condicao = $jsonEntrada['condicao'];
+if (isset($jsonEntrada['idPessoaPrestador'])) {
+    $idPessoaPrestador  = isset($jsonEntrada['idPessoaPrestador'])  && $jsonEntrada['idPessoaPrestador'] !== "" && $jsonEntrada['idPessoaPrestador'] !== "null" ? "'" . $jsonEntrada['idPessoaPrestador']. "'"  : "null";
+    $idPessoaTomador  = isset($jsonEntrada['idPessoaTomador'])  && $jsonEntrada['idPessoaTomador'] !== "" && $jsonEntrada['idPessoaTomador'] !== "null" ? "'" . $jsonEntrada['idPessoaTomador']. "'"  : "null";
+    $serieRPS  = isset($jsonEntrada['serieRPS'])  && $jsonEntrada['serieRPS'] !== "" && $jsonEntrada['serieRPS'] !== "null" ? "'" . $jsonEntrada['serieRPS']. "'"  : "null";
+    $numeroRPS  = isset($jsonEntrada['numeroRPS'])  && $jsonEntrada['numeroRPS'] !== "" && $jsonEntrada['numeroRPS'] !== "null" ? "'" . $jsonEntrada['numeroRPS']. "'"  : "null";
+    $tipoRPS  = isset($jsonEntrada['tipoRPS'])  && $jsonEntrada['tipoRPS'] !== "" && $jsonEntrada['tipoRPS'] !== "null" ? "'" . $jsonEntrada['tipoRPS']. "'"  : "null";
+    $valorNota  = isset($jsonEntrada['valorNota'])  && $jsonEntrada['valorNota'] !== "" && $jsonEntrada['valorNota'] !== "null" ? "'" . $jsonEntrada['valorNota']. "'"  : "null";
+    $codMunicipio  = isset($jsonEntrada['codMunicipio'])  && $jsonEntrada['codMunicipio'] !== "" && $jsonEntrada['codMunicipio'] !== "null" ? "'" . $jsonEntrada['codMunicipio']. "'"  : "null";
+    $condicao  = isset($jsonEntrada['condicao'])  && $jsonEntrada['condicao'] !== "" && $jsonEntrada['condicao'] !== "null" ? "'" . $jsonEntrada['condicao']. "'"  : "null";
+    $descricaoServico  = isset($jsonEntrada['descricaoServico'])  && $jsonEntrada['descricaoServico'] !== "" && $jsonEntrada['descricaoServico'] !== "null" ? "'" . $jsonEntrada['descricaoServico']. "'"  : "null";
+    $dataFaturamento  = isset($jsonEntrada['dataFaturamento'])  && $jsonEntrada['dataFaturamento'] !== "" && $jsonEntrada['dataFaturamento'] !== "null" ? "'" . $jsonEntrada['dataFaturamento']. "'"  : "null";
+    $dataEmissao  = isset($jsonEntrada['dataEmissao'])  && $jsonEntrada['dataEmissao'] !== "" && $jsonEntrada['dataEmissao'] !== "null" ? "'" . $jsonEntrada['dataEmissao']. "'"  : "null";
 
-    $sql = "INSERT INTO `notasservico`( `idCliente`, `dataFaturamento`, `dataEmissao`, `serieNota`, `numeroNota`, `serieRPS`, `numeroRPS`, `valorNota`, 
-    `statusNota`, `condicao`) VALUES ('$idCliente','$dataFaturamento','$dataEmissao','$serieNota','$numeroNota','$serieRPS','$numeroRPS','$valorNota','$statusNota','$condicao')";
+
+    $sql = "INSERT INTO `notasservico`(`idPessoaPrestador`, `idPessoaTomador`, `serieRPS`, `numeroRPS`, `tipoRPS`, `valorNota`,`codMunicipio`, `condicao`, `descricaoServico`, `dataFaturamento`, `dataEmissao`) 
+                               VALUES ($idPessoaPrestador,$idPessoaTomador,$serieRPS,$numeroRPS,$tipoRPS,$valorNota,$codMunicipio,$condicao, $descricaoServico, $dataFaturamento, $dataEmissao)";
 
     //LOG
     if (isset($LOG_NIVEL)) {

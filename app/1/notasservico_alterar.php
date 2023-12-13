@@ -27,20 +27,26 @@ $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idNotaServico'])) {
     $idNotaServico = $jsonEntrada['idNotaServico'];
-    $idCliente = $jsonEntrada['idCliente'];
-    $dataFaturamento = $jsonEntrada['dataFaturamento'];
-    $dataEmissao = $jsonEntrada['dataEmissao'];
-    $serieNota = $jsonEntrada['serieNota'];
-    $numeroNota = isset($jsonEntrada['numeroNota']) && $jsonEntrada['numeroNota'] !== "" ? "'" . mysqli_real_escape_string($conexao, $jsonEntrada['numeroNota']) . "'" : "null";
-    $serieRPS = $jsonEntrada['serieRPS'];
-    $numeroRPS = isset($jsonEntrada['numeroRPS']) && $jsonEntrada['numeroRPS'] !== "" ? "'" . mysqli_real_escape_string($conexao, $jsonEntrada['numeroRPS']) . "'" : "null";
-    $valorNota = $jsonEntrada['valorNota'];
-    $statusNota = $jsonEntrada['statusNota'];
-    $condicao = $jsonEntrada['condicao'];
+    //Verifica dados da nota
+    $sql_consulta = "SELECT * FROM notasservico WHERE idNotaServico = $idNotaServico";
+    $buscar_consulta = mysqli_query($conexao, $sql_consulta);
+    $row_consulta = mysqli_fetch_array($buscar_consulta, MYSQLI_ASSOC);
+    
+    $idPessoaPrestador  = isset($jsonEntrada['idPessoaPrestador'])  && $jsonEntrada['idPessoaPrestador'] !== "" && $jsonEntrada['idPessoaPrestador'] !== "null" ? "'" . $jsonEntrada['idPessoaPrestador']. "'"  : "'" . $row_consulta['idPessoaPrestador']. "'";
+    $idPessoaTomador  = isset($jsonEntrada['idPessoaTomador'])  && $jsonEntrada['idPessoaTomador'] !== "" && $jsonEntrada['idPessoaTomador'] !== "null" ? "'" . $jsonEntrada['idPessoaTomador']. "'"  : "'" . $row_consulta['idPessoaTomador']. "'";
+    $serieRPS  = isset($jsonEntrada['serieRPS'])  && $jsonEntrada['serieRPS'] !== "" && $jsonEntrada['serieRPS'] !== "null" ? "'" . $jsonEntrada['serieRPS']. "'"  : "'" . $row_consulta['serieRPS']. "'";
+    $numeroRPS  = isset($jsonEntrada['numeroRPS'])  && $jsonEntrada['numeroRPS'] !== "" && $jsonEntrada['numeroRPS'] !== "null" ? "'" . $jsonEntrada['numeroRPS']. "'"  : "'" . $row_consulta['numeroRPS']. "'";
+    $tipoRPS  = isset($jsonEntrada['tipoRPS'])  && $jsonEntrada['tipoRPS'] !== "" && $jsonEntrada['tipoRPS'] !== "null" ? "'" . $jsonEntrada['tipoRPS']. "'"  : "'" . $row_consulta['tipoRPS']. "'";
+    $valorNota  = isset($jsonEntrada['valorNota'])  && $jsonEntrada['valorNota'] !== "" && $jsonEntrada['valorNota'] !== "null" ? "'" . $jsonEntrada['valorNota']. "'"  : "'" . $row_consulta['valorNota']. "'";
+    $codMunicipio  = isset($jsonEntrada['codMunicipio'])  && $jsonEntrada['codMunicipio'] !== "" && $jsonEntrada['codMunicipio'] !== "null" ? "'" . $jsonEntrada['codMunicipio']. "'"  : "'" . $row_consulta['codMunicipio']. "'";
+    $condicao  = isset($jsonEntrada['condicao'])  && $jsonEntrada['condicao'] !== "" && $jsonEntrada['condicao'] !== "null" ? "'" . $jsonEntrada['condicao']. "'"  : "'" . $row_consulta['condicao']. "'";
+    $descricaoServico  = isset($jsonEntrada['descricaoServico'])  && $jsonEntrada['descricaoServico'] !== "" && $jsonEntrada['descricaoServico'] !== "null" ? "'" . $jsonEntrada['descricaoServico']. "'"  : "'" . $row_consulta['descricaoServico']. "'";
+    $dataFaturamento  = isset($jsonEntrada['dataFaturamento'])  && $jsonEntrada['dataFaturamento'] !== "" && $jsonEntrada['dataFaturamento'] !== "null" ? "'" . $jsonEntrada['dataFaturamento']. "'"  : "'" . $row_consulta['dataFaturamento']. "'";
+    $dataEmissao  = isset($jsonEntrada['dataEmissao'])  && $jsonEntrada['dataEmissao'] !== "" && $jsonEntrada['dataEmissao'] !== "null" ? "'" . $jsonEntrada['dataEmissao']. "'"  : "'" . $row_consulta['dataEmissao']. "'";
 
-    $sql = "UPDATE `notasservico` SET `idCliente`= $idCliente,`dataFaturamento`= '$dataFaturamento',`dataEmissao`= '$dataEmissao',`serieNota`='$serieNota',
-    `numeroNota`= $numeroNota,`serieRPS`='$serieRPS',`numeroRPS`= $numeroRPS,`valorNota`='$valorNota',`statusNota`= $statusNota,`condicao`='$condicao' 
-    WHERE notasservico.idNotaServico = $idNotaServico";
+    $sql = "UPDATE `notasservico` SET `idPessoaPrestador`= $idPessoaPrestador,`idPessoaTomador`=$idPessoaTomador,`serieRPS`=$serieRPS,`numeroRPS`=$numeroRPS,`tipoRPS`=$tipoRPS,
+    `valorNota`= $valorNota,`codMunicipio`=$codMunicipio,`condicao`=$condicao,`descricaoServico`=$descricaoServico,`dataFaturamento`=$dataFaturamento,`dataEmissao`=$dataEmissao
+    WHERE idNotaServico = $idNotaServico";
 
     //LOG
     if (isset($LOG_NIVEL)) {

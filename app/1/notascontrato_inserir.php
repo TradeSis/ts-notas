@@ -27,19 +27,18 @@ $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idContrato'])) {
     $idContrato = $jsonEntrada['idContrato'];
-    $idCliente = $jsonEntrada['idCliente'];
-    $dataFaturamento = $jsonEntrada['dataFaturamento'];
-    $dataEmissao = $jsonEntrada['dataEmissao'];
+    $idPessoa = $jsonEntrada['idPessoa'];
     $serieNota = $jsonEntrada['serieNota'];
     $numeroNota = $jsonEntrada['numeroNota'];
     $serieRPS = $jsonEntrada['serieRPS'];
     $numeroRPS = $jsonEntrada['numeroRPS'];
+    $tipoRPS = $jsonEntrada['tipoRPS'];
     $valorNota = $jsonEntrada['valorNota'];
-    $statusNota = $jsonEntrada['statusNota'];
+    $statusNota = STATUSNOTA_PADRAO;
     $condicao = $jsonEntrada['condicao'];
 
-    $sql = "INSERT INTO `notasservico`( `idCliente`, `dataFaturamento`, `dataEmissao`, `serieNota`, `numeroNota`, `serieRPS`, `numeroRPS`, `valorNota`, 
-    `statusNota`, `condicao`) VALUES ('$idCliente','$dataFaturamento','$dataEmissao','$serieNota','$numeroNota','$serieRPS','$numeroRPS','$valorNota','$statusNota','$condicao')";
+    $sql = "INSERT INTO `notasservico`(`idPessoa`, `serieNota`, `numeroNota`, `serieRPS`, `numeroRPS`, `tipoRPS`, `valorNota`, `statusNota`, `condicao`) 
+                               VALUES ('$idPessoa','$serieNota','$numeroNota','$serieRPS','$numeroRPS','$tipoRPS','$valorNota','$statusNota','$condicao')";
 
     //LOG
     if (isset($LOG_NIVEL)) {
