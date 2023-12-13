@@ -177,7 +177,7 @@ if (isset($_GET['operacao'])) {
 		
 		$notas = chamaAPI(null, '/notas/emitirNota', json_encode($apiEntrada), 'POST');
 
-		echo json_encode($apiEntrada);
+		echo json_encode($notas);
 		return $notas;
 	}
 	if ($operacao == "visualizarNota") {

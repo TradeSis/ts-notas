@@ -455,6 +455,7 @@ $cidades = buscarCidades();
         
         $(document).on('click', '#emitir', function () {
             var idNotaServico = $(this).attr("data-idNotaServico");
+            $('body').css('cursor', 'wait');
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -463,7 +464,13 @@ $cidades = buscarCidades();
                     idNotaServico:idNotaServico
                 },
                 success: function (msg) {
-                    window.location.reload();
+                    $('body').css('cursor', 'default');
+                    if (msg.status=== 200){
+                        window.location.reload();
+                    } else {
+                        alert(msg.retorno);
+                        window.location.reload();
+                    }
                 }
             });
         });

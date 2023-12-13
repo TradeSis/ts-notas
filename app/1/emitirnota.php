@@ -29,12 +29,12 @@ if (isset($jsonEntrada['idNotaServico'])) {
   $idNotaServico = $jsonEntrada['idNotaServico'];
   $statusNota = 1; //aberto
 
-  
+
   //Verifica dados da nota
   $sql_consulta = "SELECT * FROM notasservico WHERE idNotaServico = $idNotaServico";
   $buscar_consulta = mysqli_query($conexao, $sql_consulta);
   $row_consulta = mysqli_fetch_array($buscar_consulta, MYSQLI_ASSOC);
-  
+
   $idPessoaPrestador = $row_consulta['idPessoaPrestador'];
   $idPessoaTomador = $row_consulta['idPessoaTomador'];
   $dataFaturamento = $row_consulta['dataFaturamento'];
@@ -178,40 +178,50 @@ if (isset($jsonEntrada['idNotaServico'])) {
   $dadosNFSE = $apiInstance->consultarNfse($nfse['id']);
   //echo json_encode($dadosNFSE);
 
-  $sql = "UPDATE `notasservico` SET `statusNota`='$statusNota', `dataEmissao`='$dataEmissao', `idProvedor`='" . $dadosNFSE['id'] . "', `provedor`='" . $parametros['fornecedor'] . "'  WHERE idNotaServico = $idNotaServico";
+  if ($nfse['status'] == "autorizada") {
+
+    $sql = "UPDATE `notasservico` SET `statusNota`='$statusNota', `dataEmissao`='$dataEmissao', `idProvedor`='" . $dadosNFSE['id'] . "', `provedor`='" . $parametros['fornecedor'] . "'  WHERE idNotaServico = $idNotaServico";
 
 
-  //LOG
-  if (isset($LOG_NIVEL)) {
-    if ($LOG_NIVEL >= 3) {
-      fwrite($arquivo, $identificacao . "-SQL->" . $sql . "\n");
+    //LOG
+    if (isset($LOG_NIVEL)) {
+      if ($LOG_NIVEL >= 3) {
+        fwrite($arquivo, $identificacao . "-SQL->" . $sql . "\n");
+      }
     }
-  }
-  //LOG
+    //LOG
 
-  //TRY-CATCH
-  try {
+    //TRY-CATCH
+    try {
 
-    $atualizar = mysqli_query($conexao, $sql);
-    if (!$atualizar)
-      throw new Exception(mysqli_error($conexao));
+      $atualizar = mysqli_query($conexao, $sql);
+      if (!$atualizar)
+        throw new Exception(mysqli_error($conexao));
 
-    $jsonSaida = array(
-      "status" => 200,
-      "retorno" => "ok"
-    );
-  } catch (Exception $e) {
-    $jsonSaida = array(
-      "status" => 500,
-      "retorno" => $e->getMessage()
-    );
-    if ($LOG_NIVEL >= 1) {
-      fwrite($arquivo, $identificacao . "-ERRO->" . $e->getMessage() . "\n");
+      $jsonSaida = array(
+        "status" => 200,
+        "retorno" => "ok"
+      );
+    } catch (Exception $e) {
+      $jsonSaida = array(
+        "status" => 500,
+        "retorno" => $e->getMessage()
+      );
+      if ($LOG_NIVEL >= 1) {
+        fwrite($arquivo, $identificacao . "-ERRO->" . $e->getMessage() . "\n");
+      }
+    } finally {
+      // ACAO EM CASO DE ERRO (CATCH), que mesmo assim precise
     }
-  } finally {
-    // ACAO EM CASO DE ERRO (CATCH), que mesmo assim precise
+    //TRY-CATCH
+
+  } else {
+    $jsonSaida = array(
+      "status" => 400,
+      "retorno" => $dadosNFSE['mensagens'][0]['descricao']
+    );
   }
-  //TRY-CATCH
+
 } else {
   $jsonSaida = array(
     "status" => 400,
