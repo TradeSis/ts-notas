@@ -36,7 +36,7 @@ if (isset($jsonEntrada['idPessoaPrestador'])) {
     $codMunicipio  = isset($jsonEntrada['codMunicipio'])  && $jsonEntrada['codMunicipio'] !== "" && $jsonEntrada['codMunicipio'] !== "null" ? "'" . $jsonEntrada['codMunicipio']. "'"  : "null";
     $condicao  = isset($jsonEntrada['condicao'])  && $jsonEntrada['condicao'] !== "" && $jsonEntrada['condicao'] !== "null" ? "'" . $jsonEntrada['condicao']. "'"  : "null";
     $descricaoServico  = isset($jsonEntrada['descricaoServico'])  && $jsonEntrada['descricaoServico'] !== "" && $jsonEntrada['descricaoServico'] !== "null" ? "'" . $jsonEntrada['descricaoServico']. "'"  : "null";
-    $dataFaturamento  = isset($jsonEntrada['dataFaturamento'])  && $jsonEntrada['dataFaturamento'] !== "" && $jsonEntrada['dataFaturamento'] !== "null" ? "'" . $jsonEntrada['dataFaturamento']. "'"  : "null";
+    $dataFaturamento  = isset($jsonEntrada['dataFaturamento'])  && $jsonEntrada['dataFaturamento'] !== "" && $jsonEntrada['dataFaturamento'] !== "null" ? "'" . $jsonEntrada['dataFaturamento']. "'"  : "CURRENT_TIMESTAMP";
     $dataEmissao  = isset($jsonEntrada['dataEmissao'])  && $jsonEntrada['dataEmissao'] !== "" && $jsonEntrada['dataEmissao'] !== "null" ? "'" . $jsonEntrada['dataEmissao']. "'"  : "null";
 
 

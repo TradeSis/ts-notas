@@ -165,7 +165,7 @@ if (isset($jsonEntrada['idNotaServico'])) {
   //LOG
     if (isset($LOG_NIVEL)) {
       if ($LOG_NIVEL >= 3) {
-        fwrite($arquivo, $identificacao . "-jsonEmissao->" . $jsonEmissao . "\n");
+        fwrite($arquivo, $identificacao . "-jsonEmissao->" . json_encode($jsonEmissao) . "\n");
       }
     }
   //LOG  
