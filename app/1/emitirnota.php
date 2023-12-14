@@ -21,13 +21,14 @@ if (isset($LOG_NIVEL)) {
   }
 }
 //LOG
-
+date_default_timezone_set('America/Sao_Paulo');
 $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idNotaServico'])) {
 
   $idNotaServico = $jsonEntrada['idNotaServico'];
   $statusNota = 1; //aberto
+  $dataEmissao = date('Y-m-d H:i:s');
 
 
   //Verifica dados da nota
@@ -42,7 +43,6 @@ if (isset($jsonEntrada['idNotaServico'])) {
   $condicao = $row_consulta['condicao'];
   $descricaoServico = $row_consulta['descricaoServico'];
   $codMunicipio = $row_consulta['codMunicipio'];
-  $dataEmissao = $row_consulta['dataEmissao'];
 
   //Busca parametros nota
   $sql_parametros = "SELECT * FROM notasparametros where idEmpresa = $idEmpresa";
@@ -200,7 +200,7 @@ if (isset($jsonEntrada['idNotaServico'])) {
   }
   //LOG
 
-  if ($nfse['status'] == "autorizada") {
+  if ($dadosNFSE['status'] == "autorizada") {
 
     $sql = "UPDATE `notasservico` SET `statusNota`='$statusNota', `dataEmissao`='$dataEmissao', `idProvedor`='" . $dadosNFSE['id'] . "', `provedor`='" . $parametros['fornecedor'] . "'  WHERE idNotaServico = $idNotaServico";
 
