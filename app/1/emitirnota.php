@@ -160,8 +160,15 @@ if (isset($jsonEntrada['idNotaServico'])) {
     'ambiente' => $parametros['ambiente'],
     'infDPS' => $infDPS
   );
-  //echo json_encode($jsonEmissao);
   //montagem json fim *******************
+
+  //LOG
+    if (isset($LOG_NIVEL)) {
+      if ($LOG_NIVEL >= 3) {
+        fwrite($arquivo, $identificacao . "-jsonEmissao->" . $jsonEmissao . "\n");
+      }
+    }
+  //LOG  
 
   //Chamar Function para emitir nota nuvemFiscal
   $config = NuvemFiscal\Configuration::getDefaultConfiguration()
@@ -173,10 +180,25 @@ if (isset($jsonEntrada['idNotaServico'])) {
   );
   $body = $jsonEmissao;
   $nfse = $apiInstance->emitirNfseDps($body);
-  //echo json_encode($nfse);
+
+  //LOG
+  if (isset($LOG_NIVEL)) {
+    if ($LOG_NIVEL >= 3) {
+      fwrite($arquivo, $identificacao . "-NFSE->" . $nfse . "\n");
+    }
+  }
+  //LOG
+
   sleep(5);
   $dadosNFSE = $apiInstance->consultarNfse($nfse['id']);
-  //echo json_encode($dadosNFSE);
+
+  //LOG
+  if (isset($LOG_NIVEL)) {
+    if ($LOG_NIVEL >= 3) {
+      fwrite($arquivo, $identificacao . "-dadosNFSE->" . $dadosNFSE . "\n");
+    }
+  }
+  //LOG
 
   if ($nfse['status'] == "autorizada") {
 
