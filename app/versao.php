@@ -4,7 +4,7 @@
 
 // NOVA VERSAO 
 include  __DIR__ . "/../conexao.php";
-require_once(__DIR__ . '/../vendor/autoload.php');
+require_once(__DIR__ . '/../nuvemfiscal/vendor/autoload.php');
 
 //include "app/conexao.php";
 
