@@ -14,6 +14,7 @@ if (isset($jsonEntrada['idProvedor'])) {
 
     //Chamar Function para emitir nota nuvemFiscal
     $config = NuvemFiscal\Configuration::getDefaultConfiguration()
+        ->setHost('https://api.sandbox.nuvemfiscal.com.br')
         ->setApiKey('Authorization', 'Bearer')
         ->setAccessToken($parametros['access_token']);
     $apiInstance = new NuvemFiscal\Api\NfseApi(

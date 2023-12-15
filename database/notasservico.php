@@ -30,18 +30,14 @@ if (isset($_GET['operacao'])) {
 
 	if ($operacao=="inserir") {
 		$condicao = strip_tags($_POST['condicao']);
+		$descricaoServico = strip_tags($_POST['descricaoServico']);
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
-			'idPessoaPrestador' => $_POST['idPessoaPrestador'],
 			'idPessoaTomador' => $_POST['idPessoaTomador'],
-			'dataFaturamento' => $_POST['dataFaturamento'],
-			'dataEmissao' => $_POST['dataEmissao'],
-    		'numeroRPS' => $_POST['numeroRPS'],
-    		'serieRPS' => $_POST['serieRPS'],
-    		'tipoRPS' => $_POST['tipoRPS'],
+			'dataCompetencia' => $_POST['dataCompetencia'],
     		'valorNota' => $_POST['valorNota'],
-    		'descricaoServico' => $_POST['descricaoServico'],
     		'codMunicipio' => $_POST['codMunicipio'],
+    		'descricaoServico' => $descricaoServico,
     		'condicao' => $condicao
 		);
 		/* echo json_encode($apiEntrada);
@@ -57,8 +53,8 @@ if (isset($_GET['operacao'])) {
 			'idPessoaPrestador' => $_POST['idPessoaPrestador'],
 			'idContrato' => $_POST['idContrato'],
     		'numeroNota' => $_POST['numeroNota'],
-    		'numeroRPS' => $_POST['numeroRPS'],
-    		'serieRPS' => $_POST['serieRPS'],
+    		'numeroDPS' => $_POST['numeroDPS'],
+    		'serieDPS' => $_POST['serieDPS'],
     		'tipoRPS' => $_POST['tipoRPS'],
     		'serieNota' => $_POST['serieNota'],
     		'valorNota' => $_POST['valorNota'],
@@ -72,20 +68,15 @@ if (isset($_GET['operacao'])) {
 
 	if ($operacao=="alterar") {
 		$condicao = strip_tags($_POST['condicao']);
-		
+		$descricaoServico = strip_tags($_POST['descricaoServico']);
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
 			'idNotaServico' => $_POST['idNotaServico'],
-			'idPessoaPrestador' => $_POST['idPessoaPrestador'],
 			'idPessoaTomador' => $_POST['idPessoaTomador'],
-			'dataFaturamento' => $_POST['dataFaturamento'],
-			'dataEmissao' => $_POST['dataEmissao'],
-    		'numeroRPS' => $_POST['numeroRPS'],
-    		'serieRPS' => $_POST['serieRPS'],
-    		'tipoRPS' => $_POST['tipoRPS'],
+			'dataCompetencia' => $_POST['dataCompetencia'],
     		'valorNota' => $_POST['valorNota'],
-    		'descricaoServico' => $_POST['descricaoServico'],
     		'codMunicipio' => $_POST['codMunicipio'],
+    		'descricaoServico' => $descricaoServico,
     		'condicao' => $condicao
 		);
 		/* echo json_encode($apiEntrada);
@@ -168,7 +159,7 @@ if (isset($_GET['operacao'])) {
 
 	}
 
-	if ($operacao == "emitir") {
+	if ($operacao == "emitirNota") {
 
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
@@ -176,6 +167,18 @@ if (isset($_GET['operacao'])) {
 		);
 		
 		$notas = chamaAPI(null, '/notas/emitirNota', json_encode($apiEntrada), 'POST');
+
+		echo json_encode($notas);
+		return $notas;
+	}
+	if ($operacao == "consultarNota") {
+
+		$apiEntrada = array(
+			'idEmpresa' => $_SESSION['idEmpresa'],
+			'idNotaServico' => $_POST['idNotaServico']
+		);
+		
+		$notas = chamaAPI(null, '/notas/consultarNota', json_encode($apiEntrada), 'POST');
 
 		echo json_encode($notas);
 		return $notas;

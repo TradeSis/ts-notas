@@ -30,15 +30,15 @@ if (isset($jsonEntrada['idContrato'])) {
     $idPessoa = $jsonEntrada['idPessoa'];
     $serieNota = $jsonEntrada['serieNota'];
     $numeroNota = $jsonEntrada['numeroNota'];
-    $serieRPS = $jsonEntrada['serieRPS'];
-    $numeroRPS = $jsonEntrada['numeroRPS'];
+    $serieDPS = $jsonEntrada['serieDPS'];
+    $numeroDPS = $jsonEntrada['numeroDPS'];
     $tipoRPS = $jsonEntrada['tipoRPS'];
     $valorNota = $jsonEntrada['valorNota'];
     $statusNota = STATUSNOTA_PADRAO;
     $condicao = $jsonEntrada['condicao'];
 
-    $sql = "INSERT INTO `notasservico`(`idPessoa`, `serieNota`, `numeroNota`, `serieRPS`, `numeroRPS`, `tipoRPS`, `valorNota`, `statusNota`, `condicao`) 
-                               VALUES ('$idPessoa','$serieNota','$numeroNota','$serieRPS','$numeroRPS','$tipoRPS','$valorNota','$statusNota','$condicao')";
+    $sql = "INSERT INTO `notasservico`(`idPessoa`, `serieNota`, `numeroNota`, `serieDPS`, `numeroDPS`, `tipoRPS`, `valorNota`, `statusNota`, `condicao`) 
+                               VALUES ('$idPessoa','$serieNota','$numeroNota','$serieDPS','$numeroDPS','$tipoRPS','$valorNota','$statusNota','$condicao')";
 
     //LOG
     if (isset($LOG_NIVEL)) {

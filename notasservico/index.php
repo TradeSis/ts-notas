@@ -30,7 +30,8 @@ $cidades = buscarCidades();
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
             <div class="col-2 col-lg-1 order-lg-1">
-                <button class="btn btn-outline-secondary ts-btnFiltros" type="button"><i class="bi bi-funnel"></i></button>
+                <button class="btn btn-outline-secondary ts-btnFiltros" type="button"><i
+                        class="bi bi-funnel"></i></button>
             </div>
 
             <div class="col-4 col-lg-3 order-lg-2">
@@ -44,9 +45,12 @@ $cidades = buscarCidades();
             </div>
             <div class="col-12 col-lg-6 order-lg-4">
                 <div class="input-group">
-                    <input type="text" class="form-control ts-input" id="buscanotas" placeholder="Buscar por id ou numero da nota">
-                    <button class="btn btn-primary rounded" type="button" id="buscar"><i class="bi bi-search"></i></button>
-                    <button type="button" class="ms-4 btn btn-success" data-bs-toggle="modal" data-bs-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
+                    <input type="text" class="form-control ts-input" id="buscanotas"
+                        placeholder="Buscar por id ou numero da nota">
+                    <button class="btn btn-primary rounded" type="button" id="buscar"><i
+                            class="bi bi-search"></i></button>
+                    <button type="button" class="ms-4 btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
                 </div>
             </div>
 
@@ -55,27 +59,33 @@ $cidades = buscarCidades();
 
         <!-- MENUFILTROS -->
         <div class="ts-menuFiltros mt-2 px-3">
-        <label>Filtrar por:</label>
+            <label>Filtrar por:</label>
             <div class="col-12">
                 <form class="d-flex" action="" method="post">
                     <select class="form-control" name="idPessoaPrestador" id="FiltroPessoas">
-                        <option value="<?php echo null ?>"><?php echo "Pessoa"  ?></option>
+                        <option value="<?php echo null ?>">
+                            <?php echo "Pessoa" ?>
+                        </option>
                         <?php
                         foreach ($pessoas as $pessoa) {
-                        ?>
+                            ?>
                             <option <?php
-                                    /*  if ($pessoa['idPessoa'] == $idPessoa) {
-                                        echo "selected";
-                                    } */
-                                    ?> value="<?php echo $pessoa['idPessoa'] ?>"><?php echo $pessoa['nomePessoa']  ?></option>
-                        <?php  } ?>
+                            /*  if ($pessoa['idPessoa'] == $idPessoa) {
+                                echo "selected";
+                            } */
+                            ?> value="<?php echo $pessoa['idPessoa'] ?>">
+                                <?php echo $pessoa['nomePessoa'] ?>
+                            </option>
+                        <?php } ?>
                     </select>
                 </form>
             </div>
             <div class="col-12 mt-2">
                 <form class="d-flex" action="" method="post">
                     <select class="form-control" name="statusNota" id="FiltroStatusNota">
-                        <option value="<?php echo null ?>"><?php echo "statusNota"  ?></option>
+                        <option value="<?php echo null ?>">
+                            <?php echo "statusNota" ?>
+                        </option>
                         <option value="0">Aberto</option>
                         <option value="1">Emitida</option>
                         <option value="2">Recebida</option>
@@ -95,13 +105,13 @@ $cidades = buscarCidades();
                 <thead class="ts-headertabelafixo">
                     <tr>
                         <th>Nota</th>
-                        <th>Pessoa</th>
-                        <th>Faturamento</th>
+                        <th>Tomador</th>
+                        <th>Competencia</th>
                         <th>Emissao</th>
                         <th>Serie</th>
                         <th>Número</th>
-                        <th>SerieRPS</th>
-                        <th>NumeroRPS</th>
+                        <th>serieDPS</th>
+                        <th>numeroDPS</th>
                         <th>Valor</th>
                         <th>Status</th>
                         <th colspan="2">Ação</th>
@@ -117,7 +127,8 @@ $cidades = buscarCidades();
 
 
         <!--------- INSERIR --------->
-        <div class="modal fade bd-example-modal-lg" id="inserirModal" tabindex="-1" aria-labelledby="inserirModalLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="inserirModal" tabindex="-1" aria-labelledby="inserirModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -127,77 +138,57 @@ $cidades = buscarCidades();
                     <div class="modal-body">
                         <form method="post" id="inserirFormNotaServico">
                             <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <label class="form-label ts-label">Prestador</label>
-                                    <select class="form-select ts-input" name="idPessoaPrestador">
-                                        <?php
-                                        foreach ($pessoas as $pessoa) {
-                                        ?>
-                                            <option value="<?php echo $pessoa['idPessoa'] ?>"><?php echo $pessoa['nomePessoa'] ?></option>
-                                        <?php  } ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class='form-label ts-label'>Faturamento</label>
-                                    <input type="date" class="form-control ts-input" name="dataFaturamento" autocomplete="off">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class='form-label ts-label'>Emissão</label>
-                                    <input type="date" class="form-control ts-input" name="dataEmissao" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <label class="form-label ts-label">Tomador</label>
+                                <div class="col-md-4">
+                                    <label class="form-label ts-label">Tomador/Cliente</label>
                                     <select class="form-select ts-input" name="idPessoaTomador">
                                         <?php
                                         foreach ($pessoas as $pessoa) {
-                                        ?>
-                                            <option value="<?php echo $pessoa['idPessoa'] ?>"><?php echo $pessoa['nomePessoa'] ?></option>
-                                        <?php  } ?>
+                                            ?>
+                                        <option value="<?php echo $pessoa['idPessoa'] ?>">
+                                            <?php echo $pessoa['nomePessoa'] ?>
+                                        </option>
+                                        <?php } ?>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class='form-label ts-label'>Descrição/Título Serviço</label>
-                                    <input type="text" class="form-control ts-input" name="descricaoServico" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="row mt-2">
                                 <div class="col-md-3">
-                                    <label class='form-label ts-label'>numeroRPS</label>
-                                    <input type="text" class="form-control ts-input" name="numeroRPS" autocomplete="off">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class='form-label ts-label'>serieRPS</label>
-                                    <input type="text" class="form-control ts-input" name="serieRPS" autocomplete="off">
-                                </div>
-                                <div class="col-md-1">
-                                    <label class='form-label ts-label'>tipoRPS</label>
-                                    <input type="text" class="form-control ts-input" name="tipoRPS" autocomplete="off">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class='form-label ts-label'>valorNota</label>
-                                    <input type="text" class="form-control ts-input" name="valorNota" autocomplete="off" required>
+                                    <label class='form-label ts-label'>Competência</label>
+                                    <input type="date" class="form-control ts-input" name="dataCompetencia"
+                                        autocomplete="off">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label ts-label">Município</label>
                                     <select class="form-select ts-input" name="codMunicipio">
                                         <?php
                                         foreach ($cidades as $cidade) {
-                                        ?>
-                                            <option value="<?php echo $cidade['codigoCidade'] ?>"><?php echo $cidade['nomeCidade'] ?></option>
-                                        <?php  } ?>
+                                            ?>
+                                        <option value="<?php echo $cidade['codigoCidade'] ?>">
+                                            <?php echo $cidade['nomeCidade'] ?>
+                                        </option>
+                                        <?php } ?>
                                     </select>
                                 </div>
+                                <div class="col-md-2">
+                                    <label class='form-label ts-label'>valorNota</label>
+                                    <input type="text" class="form-control ts-input" name="valorNota" autocomplete="off"
+                                        required>
+                                </div>
+                                
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <span class="tituloEditor">Descrição/Título Serviço</span>
+                                </div>
+                                <div class="quill-descricaoServicoinserir" style="height:20vh !important"></div>
+                                <textarea style="display: none" id="quill-descricaoServicoinserir" name="descricaoServico"></textarea>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
                                     <span class="tituloEditor">condicao</span>
-                                    </div>
-                                    <div class="quill-condicaoinserir" style="height:20vh !important"></div>
-                                    <textarea style="display: none" id="quill-condicaoinserir" name="condicao"></textarea>
                                 </div>
+                                <div class="quill-condicaoinserir" style="height:20vh !important"></div>
+                                <textarea style="display: none" id="quill-condicaoinserir" name="condicao"></textarea>
                             </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Cadastrar</button>
                     </div>
@@ -207,7 +198,8 @@ $cidades = buscarCidades();
         </div>
 
         <!--------- ALTERAR --------->
-        <div class="modal fade bd-example-modal-lg" id="alterarModal" tabindex="-1" aria-labelledby="alterarModalLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="alterarModal" tabindex="-1" aria-labelledby="alterarModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -217,74 +209,52 @@ $cidades = buscarCidades();
                     <div class="modal-body">
                         <form method="post" id="alterarFormNotaServico">
                             <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <label class="form-label ts-label">Prestador</label>
-                                    <select class="form-select ts-input" name="idPessoaPrestador" id="idPessoaPrestador">
+                                <div class="col-md-4">
+                                    <label class="form-label ts-label">Tomador/Cliente</label>
+                                    <select class="form-select ts-input" name="idPessoaTomador" id="idPessoaTomador">
                                         <?php
                                         foreach ($pessoas as $pessoa) {
-                                        ?>
-                                            <option value="<?php echo $pessoa['idPessoa'] ?>"><?php echo $pessoa['nomePessoa'] ?></option>
-                                        <?php  } ?>
+                                            ?>
+                                        <option value="<?php echo $pessoa['idPessoa'] ?>">
+                                            <?php echo $pessoa['nomePessoa'] ?>
+                                        </option>
+                                        <?php } ?>
                                     </select>
                                     <input type="hidden" class="form-control ts-input" name="idNotaServico" id="idNotaServico">
                                 </div>
                                 <div class="col-md-3">
-                                    <label class='form-label ts-label'>Faturamento</label>
-                                    <input type="date" class="form-control ts-input" name="dataFaturamento" id="dataFaturamento">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class='form-label ts-label'>Emissão</label>
-                                    <input type="date" class="form-control ts-input" name="dataEmissao" id="dataEmissao">
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <label class="form-label ts-label">Tomador</label>
-                                    <select class="form-select ts-input" name="idPessoaTomador" id="idPessoaTomador">
-                                        <?php
-                                        foreach ($pessoas as $pessoa) {
-                                        ?>
-                                            <option value="<?php echo $pessoa['idPessoa'] ?>"><?php echo $pessoa['nomePessoa'] ?></option>
-                                        <?php  } ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class='form-label ts-label'>Descrição/Título Serviço</label>
-                                    <input type="text" class="form-control ts-input" name="descricaoServico" id="descricaoServico">
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-md-3">
-                                    <label class='form-label ts-label'>numeroRPS</label>
-                                    <input type="text" class="form-control ts-input" name="numeroRPS" id="numeroRPS">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class='form-label ts-label'>serieRPS</label>
-                                    <input type="text" class="form-control ts-input" name="serieRPS" id="serieRPS">
-                                </div>
-                                <div class="col-md-1">
-                                    <label class='form-label ts-label'>tipoRPS</label>
-                                    <input type="text" class="form-control ts-input" name="tipoRPS" id="tipoRPS">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class='form-label ts-label'>valorNota</label>
-                                    <input type="text" class="form-control ts-input" name="valorNota" id="valorNota" required>
+                                    <label class='form-label ts-label'>Competência</label>
+                                    <input type="date" class="form-control ts-input" name="dataCompetencia" id="dataCompetencia">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label ts-label">Município</label>
                                     <select class="form-select ts-input" name="codMunicipio" id="codMunicipio">
                                         <?php
                                         foreach ($cidades as $cidade) {
-                                        ?>
-                                            <option value="<?php echo $cidade['codigoCidade'] ?>"><?php echo $cidade['nomeCidade'] ?></option>
-                                        <?php  } ?>
+                                            ?>
+                                        <option value="<?php echo $cidade['codigoCidade'] ?>">
+                                            <?php echo $cidade['nomeCidade'] ?>
+                                        </option>
+                                        <?php } ?>
                                     </select>
                                 </div>
+                                <div class="col-md-2">
+                                    <label class='form-label ts-label'>valorNota</label>
+                                    <input type="text" class="form-control ts-input" name="valorNota" id="valorNota" required>
+                                </div>
+                                
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <span class="tituloEditor">Descrição/Título Serviço</span>
+                                </div>
+                                <div class="quill-descricaoServicoalterar" style="height:20vh !important"></div>
+                                <textarea style="display: none" id="quill-descricaoServicoalterar" name="descricaoServico"></textarea>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
                                     <span class="tituloEditor">condicao</span>
-                                    </div>
+                                </div>
                                     <div class="quill-condicaoalterar" style="height:20vh !important"></div>
                                     <textarea style="display: none" id="quill-condicaoalterar" name="condicao"></textarea>
                                 </div>
@@ -299,7 +269,8 @@ $cidades = buscarCidades();
 
 
         <!--------- VISUALIZAR --------->
-        <div class="modal fade bd-example-modal-lg" id="visualizarModal" tabindex="-1" aria-labelledby="visualizarModalLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="visualizarModal" tabindex="-1"
+            aria-labelledby="visualizarModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -337,7 +308,7 @@ $cidades = buscarCidades();
                 type: 'POST',
                 dataType: 'html',
                 url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=filtrar',
-                beforeSend: function() {
+                beforeSend: function () {
                     $("#dados").html("Carregando...");
                 },
                 data: {
@@ -345,7 +316,7 @@ $cidades = buscarCidades();
                     buscanotas: buscanotas,
                     statusNota: statusNota
                 },
-                success: function(msg) {
+                success: function (msg) {
 
                     var json = JSON.parse(msg);
                     var linha = "";
@@ -360,46 +331,52 @@ $cidades = buscarCidades();
                                 var year = date.getUTCFullYear().toString().padStart(4, '0');
                                 return day + "/" + month + "/" + year;
                             }
-                            return "00/00/0000";
+                            return "";
                         }
 
-                        var dataFaturamentoFormatada = formatDate(object.dataFaturamento);
+                        var dataCompetenciaFormatada = formatDate(object.dataCompetencia);
                         var dataEmissaoFormatada = formatDate(object.dataEmissao);
 
                         if (object.statusNota == 0) {
                             var novoStatusNota = "Aberto";
                         }
                         if (object.statusNota == 1) {
-                            var novoStatusNota = "Emitida";
+                            var novoStatusNota = "Processando";
                         }
                         if (object.statusNota == 2) {
-                            var novoStatusNota = "Recebida";
+                            var novoStatusNota = "Autorizada";
                         }
                         if (object.statusNota == 3) {
+                            var novoStatusNota = "Negada";
+                        }
+                        if (object.statusNota == 4) {
                             var novoStatusNota = "Cancelada";
                         }
 
                         linha += "<tr>";
                         linha += "<td>" + object.idNotaServico + "</td>";
-                        linha += "<td>" + object.nomePessoa + "</td>";
-                        linha += "<td>" + dataFaturamentoFormatada + "</td>";
+                        linha += "<td>" + object.nomePessoaTomador + "</td>";
+                        linha += "<td>" + dataCompetenciaFormatada + "</td>";
                         linha += "<td>" + dataEmissaoFormatada + "</td>";
                         linha += "<td>" + object.serieNota + "</td>";
                         linha += "<td>" + object.numeroNota + "</td>";
-                        linha += "<td>" + object.serieRPS + "</td>";
-                        linha += "<td>" + object.numeroRPS + "</td>";
+                        linha += "<td>" + object.serieDPS + "</td>";
+                        linha += "<td>" + object.numeroDPS + "</td>";
                         linha += "<td>" + object.valorNota + "</td>";
                         linha += "<td>" + novoStatusNota + "</td>";
-                        linha += "<td>" ; 
-                        if (novoStatusNota == "Aberto") {
-                            linha += "<button type='button' class='btn btn-success btn-sm' id='emitir' data-idNotaServico='" + object.idNotaServico + "' title='Emitir Nota'><i class='bi bi-file-earmark-plus-fill'></i></button>" ;
-                            linha += "<button type='button' class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#alterarModal' data-idNotaServico='" + object.idNotaServico + "'><i class='bi bi-pencil-square'></i></button>" ;
+                        linha += "<td>";
+                        if (object.statusNota == 0 || object.statusNota == 3) {
+                            linha += "<button type='button' class='btn btn-success btn-sm' id='emitir' data-idNotaServico='" + object.idNotaServico + "' title='Emitir Nota'><i class='bi bi-file-earmark-plus-fill'></i></button>";
+                            linha += "<button type='button' class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#alterarModal' data-idNotaServico='" + object.idNotaServico + "'><i class='bi bi-pencil-square'></i></button>";
                         }
-                        if (novoStatusNota !== "Aberto") {
-                            linha += "<button type='button' class='btn btn-primary btn-sm' id='xml' data-idProvedor='" + object.idProvedor + "' title='Visualizar XML'><i class='bi bi-filetype-xml'></i></button>" ;
-                            linha += "<button type='button' class='btn btn-info btn-sm' id='pdf' data-idProvedor='" + object.idProvedor + "' title='Visualizar PDF'><i class='bi bi-filetype-pdf'></i></button>" ;
+                        if (object.statusNota == 1) {
+                            linha += "<button type='button' class='btn btn-success btn-sm' id='consulta' data-idNotaServico='" + object.idNotaServico + "' title='Atualizar'><i class='bi bi-arrow-clockwise'></i></button>";
                         }
-                        linha += "</td>" ; 
+                        if (object.statusNota == 2) {
+                            linha += "<button type='button' class='btn btn-primary btn-sm' id='xml' data-idProvedor='" + object.idProvedor + "' title='Visualizar XML'><i class='bi bi-filetype-xml'></i></button>";
+                            linha += "<button type='button' class='btn btn-info btn-sm' id='pdf' data-idProvedor='" + object.idProvedor + "' title='Visualizar PDF'><i class='bi bi-filetype-pdf'></i></button>";
+                        }
+                        linha += "</td>";
                         linha += "</tr>";
                     }
                     $("#dados").html(linha);
@@ -407,19 +384,19 @@ $cidades = buscarCidades();
             });
         }
 
-        $("#FiltroPessoas").change(function() {
+        $("#FiltroPessoas").change(function () {
             buscar($("#FiltroPessoas").val(), $("#buscanotas").val(), $("#FiltroStatusNota").val());
         })
 
-        $("#buscar").click(function() {
+        $("#buscar").click(function () {
             buscar($("#FiltroPessoas").val(), $("#buscanotas").val(), $("#FiltroStatusNota").val());
         })
 
-        $("#FiltroStatusNota").change(function() {
+        $("#FiltroStatusNota").change(function () {
             buscar($("#FiltroPessoas").val(), $("#buscanotas").val(), $("#FiltroStatusNota").val());
         })
 
-        document.addEventListener("keypress", function(e) {
+        document.addEventListener("keypress", function (e) {
             if (e.key === "Enter") {
                 buscar($("#FiltroPessoas").val(), $("#buscanotas").val(), $("#FiltroStatusNota").val());
             }
@@ -427,7 +404,6 @@ $cidades = buscarCidades();
 
         $(document).on('click', 'button[data-bs-target="#alterarModal"]', function () {
             var idNotaServico = $(this).attr("data-idNotaServico");
-            //alert(idNotaServico)
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -437,38 +413,46 @@ $cidades = buscarCidades();
                 },
                 success: function (data) {
                     condicaoalterar.root.innerHTML = data.condicao;
+                    descricaoServicoalterar.root.innerHTML = data.descricaoServico;
                     $('#idNotaServico').val(data.idNotaServico);
-                    $('#idPessoaPrestador').val(data.idPessoaPrestador);
                     $('#idPessoaTomador').val(data.idPessoaTomador);
-                    $('#dataFaturamento').val(data.dataFaturamento);
-                    $('#dataEmissao').val(data.dataEmissao);
-                    $('#descricaoServico').val(data.descricaoServico);
-                    $('#numeroRPS').val(data.numeroRPS);
-                    $('#serieRPS').val(data.serieRPS);
-                    $('#tipoRPS').val(data.tipoRPS);
+                    $('#dataCompetencia').val(data.dataCompetencia);
                     $('#valorNota').val(data.valorNota);
                     $('#codMunicipio').val(data.codMunicipio);
                     $('#alterarModal').modal('show');
                 }
             });
         });
-        
+
         $(document).on('click', '#emitir', function () {
             var idNotaServico = $(this).attr("data-idNotaServico");
-            $('body').css('cursor', 'wait');
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=emitir',
+                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=emitirNota',
                 data: {
-                    idNotaServico:idNotaServico
+                    idNotaServico: idNotaServico
                 },
                 success: function (msg) {
-                    $('body').css('cursor', 'default');
-                    if (msg.status=== 200){
+                    window.location.reload();
+                }
+            });
+        });
+
+        $(document).on('click', '#consulta', function () {
+            var idNotaServico = $(this).attr("data-idNotaServico");
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=consultarNota',
+                data: {
+                    idNotaServico: idNotaServico
+                },
+                success: function (msg) {
+                    if (msg.erroNFSE == null) {
                         window.location.reload();
                     } else {
-                        alert(msg.retorno);
+                        alert(msg.erroNFSE);
                         window.location.reload();
                     }
                 }
@@ -478,7 +462,6 @@ $cidades = buscarCidades();
         $(document).on('click', '#xml, #pdf', function () {
             var idProvedor = $(this).attr("data-idProvedor");
             var visualizarTipo = $(this).attr("id") === "xml" ? "xml" : "pdf";
-
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -495,12 +478,12 @@ $cidades = buscarCidades();
 
                     if (visualizarTipo === 'pdf') {
                         var pdfDataUri = "data:application/pdf;base64," + msg.pdf_content;
-            
+
                         var iframe = document.createElement('iframe');
                         iframe.src = pdfDataUri;
                         iframe.width = '100%';
                         iframe.height = '600px';
-            
+
                         $('#pdfViewer').append(iframe);
 
                     } if (visualizarTipo === 'xml') {
@@ -567,31 +550,36 @@ $cidades = buscarCidades();
 
         var inserirBtn = document.querySelector("button[data-bs-target='#inserirModal']");
 
-        inserirBtn.onclick = function() {
+        inserirBtn.onclick = function () {
             inserirModal.style.display = "block";
         };
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == inserirModal) {
                 inserirModal.style.display = "none";
             }
         };
 
-        $(document).ready(function() {
-            $("#inserirFormNotaServico").submit(function(event) {
-                event.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    url: "../database/notasservico.php?operacao=inserir",
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: refreshPage,
-                });
-            });
+        $(document).ready(function () {
+            $("#inserirFormNotaServico").submit(function (event) {
+                var quillContent = descricaoServicoinserir.getText().trim();
 
-            $("#alterarFormNotaServico").submit(function(event) {
+                if (quillContent === "") {
+                    alert("Por favor preencha a descrição do serviço.");
+                    event.preventDefault(); 
+                } else {
+                    var formData = new FormData(this);
+                    $.ajax({
+                        url: "../database/notasservico.php?operacao=inserir",
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: refreshPage,
+                    });
+                }
+            });
+            $("#alterarFormNotaServico").submit(function (event) {
                 event.preventDefault();
                 var formData = new FormData(this);
                 $.ajax({
@@ -615,18 +603,26 @@ $cidades = buscarCidades();
         var condicaoalterar = new Quill('.quill-condicaoalterar', {
             theme: 'snow'
         });
-        var condicaoexcluir = new Quill('.quill-condicaoexcluir', {
+
+        var descricaoServicoinserir = new Quill('.quill-descricaoServicoinserir', {
+            theme: 'snow'
+        });
+        var descricaoServicoalterar = new Quill('.quill-descricaoServicoalterar', {
             theme: 'snow'
         });
 
-        condicaoinserir.on('text-change', function(delta, oldDelta, source) {
+        condicaoinserir.on('text-change', function (delta, oldDelta, source) {
             $('#quill-condicaoinserir').val(condicaoinserir.container.firstChild.innerHTML);
         });
-        condicaoalterar.on('text-change', function(delta, oldDelta, source) {
+        condicaoalterar.on('text-change', function (delta, oldDelta, source) {
             $('#quill-condicaoalterar').val(condicaoalterar.container.firstChild.innerHTML);
         });
-        condicaoexcluir.on('text-change', function(delta, oldDelta, source) {
-            $('#quill-condicaoexcluir').val(condicaoexcluir.container.firstChild.innerHTML);
+
+        descricaoServicoinserir.on('text-change', function (delta, oldDelta, source) {
+            $('#quill-descricaoServicoinserir').val(descricaoServicoinserir.container.firstChild.innerHTML);
+        });
+        descricaoServicoalterar.on('text-change', function (delta, oldDelta, source) {
+            $('#quill-descricaoServicoalterar').val(descricaoServicoalterar.container.firstChild.innerHTML);
         });
     </script>
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->

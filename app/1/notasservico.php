@@ -31,8 +31,9 @@ if (isset($jsonEntrada["idEmpresa"])) {
 $conexao = conectaMysql($idEmpresa);
 $notas = array();
 
-$sql = "SELECT notasservico.*, pessoas.* FROM notasservico 
-LEFT JOIN pessoas on pessoas.idPessoa = notasservico.idPessoaPrestador ";
+$sql = "SELECT notasservico.*, prestador.nomePessoa as nomePessoaPrestador, tomador.nomePessoa as nomePessoaTomador FROM notasservico 
+        LEFT JOIN pessoas as prestador ON prestador.idPessoa = notasservico.idPessoaPrestador
+        LEFT JOIN pessoas as tomador ON tomador.idPessoa = notasservico.idPessoaTomador ";
 if (isset($jsonEntrada["idNotaServico"])) {
   $sql = $sql . " where notasservico.idNotaServico = " . $jsonEntrada["idNotaServico"];
 } else {

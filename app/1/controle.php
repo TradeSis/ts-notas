@@ -66,6 +66,10 @@ if ($metodo == "POST") {
       include 'visualizarNota.php';
       break;
 
+    case "consultarNota":
+      include 'consultarNota.php';
+      break;
+
       default:
       $jsonSaida = json_decode(json_encode(
         array(

@@ -1,12 +1,10 @@
 <?php
-// helio 31012023 criacao
-//echo "-ENTRADA->".json_encode($jsonEntrada)."\n";
 
 //LOG
 $LOG_CAMINHO = defineCaminhoLog();
 if (isset($LOG_CAMINHO)) {
     $LOG_NIVEL = defineNivelLog();
-    $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "notasservico_alterar";
+    $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "consultarNota";
     if (isset($LOG_NIVEL)) {
         if ($LOG_NIVEL >= 1) {
             $arquivo = fopen(defineCaminhoLog() . "notasservico_" . date("dmY") . ".log", "a");
@@ -26,22 +24,57 @@ if (isset($LOG_NIVEL)) {
 $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idNotaServico'])) {
+
     $idNotaServico = $jsonEntrada['idNotaServico'];
+
+    //Busca parametros nota
+    $sql_parametros = "SELECT * FROM notasparametros where idEmpresa = $idEmpresa";
+    $buscar_parametros = mysqli_query($conexao, $sql_parametros);
+    $parametros = mysqli_fetch_array($buscar_parametros, MYSQLI_ASSOC);
+
     //Verifica dados da nota
     $sql_consulta = "SELECT * FROM notasservico WHERE idNotaServico = $idNotaServico";
     $buscar_consulta = mysqli_query($conexao, $sql_consulta);
     $row_consulta = mysqli_fetch_array($buscar_consulta, MYSQLI_ASSOC);
-    
-    $idPessoaTomador  = isset($jsonEntrada['idPessoaTomador'])  && $jsonEntrada['idPessoaTomador'] !== "" && $jsonEntrada['idPessoaTomador'] !== "null" ? "'" . $jsonEntrada['idPessoaTomador']. "'"  : "'" . $row_consulta['idPessoaTomador']. "'";
-    $valorNota  = isset($jsonEntrada['valorNota'])  && $jsonEntrada['valorNota'] !== "" && $jsonEntrada['valorNota'] !== "null" ? "'" . $jsonEntrada['valorNota']. "'"  : "'" . $row_consulta['valorNota']. "'";
-    $codMunicipio  = isset($jsonEntrada['codMunicipio'])  && $jsonEntrada['codMunicipio'] !== "" && $jsonEntrada['codMunicipio'] !== "null" ? "'" . $jsonEntrada['codMunicipio']. "'"  : "'" . $row_consulta['codMunicipio']. "'";
-    $condicao  = isset($jsonEntrada['condicao'])  && $jsonEntrada['condicao'] !== "" && $jsonEntrada['condicao'] !== "null" ? "'" . $jsonEntrada['condicao']. "'"  : "'" . $row_consulta['condicao']. "'";
-    $descricaoServico  = isset($jsonEntrada['descricaoServico'])  && $jsonEntrada['descricaoServico'] !== "" && $jsonEntrada['descricaoServico'] !== "null" ? "'" . $jsonEntrada['descricaoServico']. "'"  : "'" . $row_consulta['descricaoServico']. "'";
-    $dataCompetencia  = isset($jsonEntrada['dataCompetencia'])  && $jsonEntrada['dataCompetencia'] !== "" && $jsonEntrada['dataCompetencia'] !== "null" ? "'" . $jsonEntrada['dataCompetencia']. "'"  : "'" . $row_consulta['dataCompetencia']. "'";
 
-    $sql = "UPDATE `notasservico` SET `idPessoaTomador`=$idPessoaTomador,`valorNota`= $valorNota,`dataCompetencia`=$dataCompetencia,
-                    `codMunicipio`=$codMunicipio,`condicao`=$condicao,`descricaoServico`=$descricaoServico
-    WHERE idNotaServico = $idNotaServico";
+    $idProvedor = $row_consulta['idProvedor'];
+
+    //Chamar Function para emitir nota nuvemFiscal
+    $config = NuvemFiscal\Configuration::getDefaultConfiguration()
+        ->setHost('https://api.sandbox.nuvemfiscal.com.br')
+        ->setApiKey('Authorization', 'Bearer')
+        ->setAccessToken($parametros['access_token']);
+    $apiInstance = new NuvemFiscal\Api\NfseApi(
+        new GuzzleHttp\Client(),
+        $config
+    );
+    $dadosNFSE = $apiInstance->consultarNfse($idProvedor);
+
+    //LOG
+    if (isset($LOG_NIVEL)) {
+        if ($LOG_NIVEL >= 3) {
+            fwrite($arquivo, $identificacao . "-dadosNFSE->" . $dadosNFSE . "\n");
+        }
+    }
+    //LOG
+
+    if ($dadosNFSE['status'] == "autorizada") {
+
+        $statusNota = 2; //Autorizada/Emitida
+        $retornoNFSE = null;
+        $dataEmissao = $dadosNFSE['data_emissao']->format('Y-m-d H:i:s');
+        $serie = $dadosNFSE->getDPS()->getSerie();
+        $nDPS = $dadosNFSE->getDPS()->getNDPS();
+
+        $sql = "UPDATE `notasservico` SET `statusNota`='$statusNota', `dataEmissao`='$dataEmissao', `url`='" . $dadosNFSE['link_url'] . "', `CodVerifica`='" . $dadosNFSE['codigo_verificacao'] . "',
+       `serieDPS`='$serie', `numeroDPS`='$nDPS', `serieNota`='$serie', `numeroNota`='" . $dadosNFSE['numero'] . "'
+       WHERE idNotaServico = $idNotaServico";
+    } else {
+        $statusNota = 3; //Aberto/Negada
+        $retornoNFSE = $dadosNFSE['mensagens'][0]['descricao'];
+        $sql = "UPDATE `notasservico` SET `statusNota`='$statusNota' WHERE idNotaServico = $idNotaServico";
+    }
+
 
     //LOG
     if (isset($LOG_NIVEL)) {
@@ -60,7 +93,8 @@ if (isset($jsonEntrada['idNotaServico'])) {
 
         $jsonSaida = array(
             "status" => 200,
-            "retorno" => "ok"
+            "retorno" => "ok",
+            "erroNFSE" => $retornoNFSE
         );
     } catch (Exception $e) {
         $jsonSaida = array(

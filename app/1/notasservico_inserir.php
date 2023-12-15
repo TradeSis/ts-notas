@@ -13,35 +13,37 @@ if (isset($LOG_CAMINHO)) {
         }
     }
 }
- if (isset($LOG_NIVEL)) {
+if (isset($LOG_NIVEL)) {
     if ($LOG_NIVEL == 1) {
         fwrite($arquivo, $identificacao . "\n");
     }
     if ($LOG_NIVEL >= 2) {
         fwrite($arquivo, $identificacao . "-ENTRADA->" . json_encode($jsonEntrada) . "\n");
     }
-} 
+}
 //LOG
 
 $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
+if (isset($jsonEntrada['valorNota'])) {
+    
+    //Busca dados Empresa
+    $conexaoEmpresa = conectaMysql(null);
+    $sql_parametros = "SELECT * FROM empresa where idEmpresa = $idEmpresa";
+    $buscar_parametros = mysqli_query($conexaoEmpresa, $sql_parametros);
+    $empresa = mysqli_fetch_array($buscar_parametros, MYSQLI_ASSOC);
 
-if (isset($jsonEntrada['idPessoaPrestador'])) {
-    $idPessoaPrestador  = isset($jsonEntrada['idPessoaPrestador'])  && $jsonEntrada['idPessoaPrestador'] !== "" && $jsonEntrada['idPessoaPrestador'] !== "null" ? "'" . $jsonEntrada['idPessoaPrestador']. "'"  : "null";
-    $idPessoaTomador  = isset($jsonEntrada['idPessoaTomador'])  && $jsonEntrada['idPessoaTomador'] !== "" && $jsonEntrada['idPessoaTomador'] !== "null" ? "'" . $jsonEntrada['idPessoaTomador']. "'"  : "null";
-    $serieRPS  = isset($jsonEntrada['serieRPS'])  && $jsonEntrada['serieRPS'] !== "" && $jsonEntrada['serieRPS'] !== "null" ? "'" . $jsonEntrada['serieRPS']. "'"  : "null";
-    $numeroRPS  = isset($jsonEntrada['numeroRPS'])  && $jsonEntrada['numeroRPS'] !== "" && $jsonEntrada['numeroRPS'] !== "null" ? "'" . $jsonEntrada['numeroRPS']. "'"  : "null";
-    $tipoRPS  = isset($jsonEntrada['tipoRPS'])  && $jsonEntrada['tipoRPS'] !== "" && $jsonEntrada['tipoRPS'] !== "null" ? "'" . $jsonEntrada['tipoRPS']. "'"  : "null";
-    $valorNota  = isset($jsonEntrada['valorNota'])  && $jsonEntrada['valorNota'] !== "" && $jsonEntrada['valorNota'] !== "null" ? "'" . $jsonEntrada['valorNota']. "'"  : "null";
-    $codMunicipio  = isset($jsonEntrada['codMunicipio'])  && $jsonEntrada['codMunicipio'] !== "" && $jsonEntrada['codMunicipio'] !== "null" ? "'" . $jsonEntrada['codMunicipio']. "'"  : "null";
-    $condicao  = isset($jsonEntrada['condicao'])  && $jsonEntrada['condicao'] !== "" && $jsonEntrada['condicao'] !== "null" ? "'" . $jsonEntrada['condicao']. "'"  : "null";
-    $descricaoServico  = isset($jsonEntrada['descricaoServico'])  && $jsonEntrada['descricaoServico'] !== "" && $jsonEntrada['descricaoServico'] !== "null" ? "'" . $jsonEntrada['descricaoServico']. "'"  : "null";
-    $dataFaturamento  = isset($jsonEntrada['dataFaturamento'])  && $jsonEntrada['dataFaturamento'] !== "" && $jsonEntrada['dataFaturamento'] !== "null" ? "'" . $jsonEntrada['dataFaturamento']. "'"  : "CURRENT_TIMESTAMP";
-    $dataEmissao  = isset($jsonEntrada['dataEmissao'])  && $jsonEntrada['dataEmissao'] !== "" && $jsonEntrada['dataEmissao'] !== "null" ? "'" . $jsonEntrada['dataEmissao']. "'"  : "null";
+    $idPessoaPrestador = $empresa['idPessoa'];
+    $idPessoaTomador = isset($jsonEntrada['idPessoaTomador']) && $jsonEntrada['idPessoaTomador'] !== "" && $jsonEntrada['idPessoaTomador'] !== "null" ? "'" . $jsonEntrada['idPessoaTomador'] . "'" : "null";
+    $valorNota = isset($jsonEntrada['valorNota']) && $jsonEntrada['valorNota'] !== "" && $jsonEntrada['valorNota'] !== "null" ? "'" . $jsonEntrada['valorNota'] . "'" : "null";
+    $codMunicipio = isset($jsonEntrada['codMunicipio']) && $jsonEntrada['codMunicipio'] !== "" && $jsonEntrada['codMunicipio'] !== "null" ? "'" . $jsonEntrada['codMunicipio'] . "'" : "null";
+    $condicao = isset($jsonEntrada['condicao']) && $jsonEntrada['condicao'] !== "" && $jsonEntrada['condicao'] !== "null" ? "'" . $jsonEntrada['condicao'] . "'" : "null";
+    $descricaoServico = isset($jsonEntrada['descricaoServico']) && $jsonEntrada['descricaoServico'] !== "" && $jsonEntrada['descricaoServico'] !== "null" ? "'" . $jsonEntrada['descricaoServico'] . "'" : "null";
+    $dataCompetencia = isset($jsonEntrada['dataCompetencia']) && $jsonEntrada['dataCompetencia'] !== "" && $jsonEntrada['dataCompetencia'] !== "null" ? "'" . $jsonEntrada['dataCompetencia'] . "'" : "CURRENT_TIMESTAMP";
 
 
-    $sql = "INSERT INTO `notasservico`(`idPessoaPrestador`, `idPessoaTomador`, `serieRPS`, `numeroRPS`, `tipoRPS`, `valorNota`,`codMunicipio`, `condicao`, `descricaoServico`, `dataFaturamento`, `dataEmissao`) 
-                               VALUES ($idPessoaPrestador,$idPessoaTomador,$serieRPS,$numeroRPS,$tipoRPS,$valorNota,$codMunicipio,$condicao, $descricaoServico, $dataFaturamento, $dataEmissao)";
+    $sql = "INSERT INTO `notasservico`(`idPessoaPrestador`, `idPessoaTomador`, `valorNota`,`codMunicipio`, `condicao`, `descricaoServico`, `dataCompetencia`) 
+                               VALUES ($idPessoaPrestador,$idPessoaTomador,$valorNota,$codMunicipio,$condicao, $descricaoServico, $dataCompetencia)";
 
     //LOG
     if (isset($LOG_NIVEL)) {
