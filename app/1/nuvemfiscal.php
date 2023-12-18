@@ -65,13 +65,13 @@ $tribMun = array(
     'tpRetISSQN' => intval($parametros['tpRetISSQN'])
 );
 
-$vPis = intval($valorNota * ($parametros['pAliqPis'] / 100));
-$vCofins = intval($valorNota * ($parametros['pAliqCofins'] / 100));
+$vPis = floatval(number_format($valorNota * ($parametros['pAliqPis'] / 100), 2, '.', ''));
+$vCofins = floatval(number_format($valorNota * ($parametros['pAliqCofins'] / 100), 2, '.', ''));
 $piscofins = array(
     'CST' => $parametros['CST'],
-    'vBCPisCofins' => intval($valorNota),
+    'vBCPisCofins' => floatval($valorNota),
     'pAliqPis' => floatval($parametros['pAliqPis']),
-    'pAliqCofins' => intval($parametros['pAliqCofins']),
+    'pAliqCofins' => floatval($parametros['pAliqCofins']),
     'vPis' => $vPis,
     'vCofins' => $vCofins,
     'tpRetPisCofins' => intval($parametros['tpRetPisCofins'])
@@ -98,7 +98,7 @@ $trib = array(
 );
 
 $vServPrest = array(
-    'vServ' => intval($valorNota)
+    'vServ' => floatval($valorNota)
 );
 
 $valores = array(
