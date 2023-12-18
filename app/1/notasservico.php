@@ -31,8 +31,9 @@ if (isset($jsonEntrada["idEmpresa"])) {
 $conexao = conectaMysql($idEmpresa);
 $notas = array();
 
-$sql = "SELECT notasservico.*, cliente.* FROM notasservico 
-INNER JOIN cliente on cliente.idCliente = notasservico.idcliente ";
+$sql = "SELECT notasservico.*, prestador.nomePessoa as nomePessoaPrestador, tomador.nomePessoa as nomePessoaTomador FROM notasservico 
+        LEFT JOIN pessoas as prestador ON prestador.idPessoa = notasservico.idPessoaPrestador
+        LEFT JOIN pessoas as tomador ON tomador.idPessoa = notasservico.idPessoaTomador ";
 if (isset($jsonEntrada["idNotaServico"])) {
   $sql = $sql . " where notasservico.idNotaServico = " . $jsonEntrada["idNotaServico"];
 } else {
@@ -41,8 +42,8 @@ if (isset($jsonEntrada["idNotaServico"])) {
     $sql = $sql . $where . " notasservico.idNotaServico="  . $jsonEntrada["buscanotas"] . " or . notasservico.numeroNota like " . "'%" . $jsonEntrada["buscanotas"] . "%'" ;
     $where = " and ";
   }
-  if (isset($jsonEntrada["idCliente"])) {
-    $sql = $sql . $where . " notasservico.idCliente = " . $jsonEntrada["idCliente"] ;
+  if (isset($jsonEntrada["idPessoaPrestador"])) {
+    $sql = $sql . $where . " notasservico.idPessoaPrestador = " . $jsonEntrada["idPessoaPrestador"] ;
     $where = " and ";
   }
   if (isset($jsonEntrada["statusNota"])) {
@@ -50,7 +51,6 @@ if (isset($jsonEntrada["idNotaServico"])) {
     $where = " and ";
   }
 }
-
 //LOG
 if (isset($LOG_NIVEL)) {
   if ($LOG_NIVEL >= 3) {

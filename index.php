@@ -4,7 +4,7 @@ include_once __DIR__ . "/../config.php";
 include_once "header.php";
 include_once ROOT . "/sistema/database/loginAplicativo.php";
 
-$nivelMenuLogin = buscaLoginAplicativo($_SESSION['idLogin'], 'Services');
+$nivelMenuLogin = buscaLoginAplicativo($_SESSION['idLogin'], 'Notas');
 $configuracao = 1;
 $nivelMenu = $nivelMenuLogin['nivelMenu'];
 
