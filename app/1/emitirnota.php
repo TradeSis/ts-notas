@@ -48,7 +48,8 @@ if (isset($jsonEntrada['idNotaServico'])) {
 
     $jsonSaida = array(
       "status" => 200,
-      "retorno" => "ok"
+      "retorno" => "ok",
+      "erroNFSE" => $retornoNFSE
     );
   } catch (Exception $e) {
     $jsonSaida = array(

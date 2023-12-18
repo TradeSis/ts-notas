@@ -146,18 +146,46 @@ $nfse = $apiInstance->emitirNfseDps($body);
 
 //LOG
 if (isset($LOG_NIVEL)) {
-    if ($LOG_NIVEL >= 3) {
-        fwrite($arquivo, $identificacao . "-NFSE->" . $nfse . "\n");
-    }
+  if ($LOG_NIVEL >= 3) {
+    fwrite($arquivo, $identificacao . "-NFSE->" . $nfse . "\n");
+  }
 }
 //LOG
 
-if ($nfse['status'] === "processando") {
-    $statusNota = 1; //Processando
+sleep(5);
+$dadosNFSE = $apiInstance->consultarNfse($nfse['id']);
 
+//LOG
+if (isset($LOG_NIVEL)) {
+  if ($LOG_NIVEL >= 3) {
+    fwrite($arquivo, $identificacao . "-dadosNFSE->" . $dadosNFSE . "\n");
+  }
+}
+//LOG
+
+$retornoNFSE = null;
+if ($dadosNFSE['status'] === "processando") {
+    $statusNota = 1; //Processando
+}
+if ($dadosNFSE['status'] === "autorizada") {
+    $statusNota = 2; //Autorizada/Emitida
+    $dataEmissao = $dadosNFSE['data_emissao']->format('Y-m-d H:i:s');
+    $serie = $dadosNFSE->getDPS()->getSerie();
+    $nDPS = $dadosNFSE->getDPS()->getNDPS();
+}
+if ($dadosNFSE['status'] === "negada") {
+    $statusNota = 3; //Negada
+    $retornoNFSE = $dadosNFSE['mensagens'][0]['descricao'];
 }
 
-$sql = "UPDATE `notasservico` SET `statusNota`='$statusNota', `idProvedor`='" . $nfse['id'] . "', `provedor`='" . $parametros['fornecedor'] . "'  WHERE idNotaServico = $idNotaServico";
+$sql = "UPDATE `notasservico` SET `statusNota`='$statusNota', `idProvedor`='" . $dadosNFSE['id'] . "', `provedor`='" . $parametros['fornecedor'] . "' ";
+
+if ($dadosNFSE['status'] === "autorizada") {
+  $sql = $sql . " , `dataEmissao`='$dataEmissao', `url`='" . $dadosNFSE['link_url'] . "', `CodVerifica`='" . $dadosNFSE['codigo_verificacao'] . "',
+  `serieDPS`='$serie', `numeroDPS`='$nDPS', `serieNota`='$serie', `numeroNota`='" . $dadosNFSE['numero'] . "' ";
+}
+
+$sql = $sql . " WHERE idNotaServico = $idNotaServico";
 
 //LOG
 if (isset($LOG_NIVEL)) {
@@ -166,3 +194,4 @@ if (isset($LOG_NIVEL)) {
     }
 }
 //LOG
+

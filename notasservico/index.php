@@ -426,6 +426,7 @@ $cidades = buscarCidades();
 
         $(document).on('click', '#emitir', function () {
             var idNotaServico = $(this).attr("data-idNotaServico");
+            $('body').css('cursor', 'wait');
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -434,7 +435,12 @@ $cidades = buscarCidades();
                     idNotaServico: idNotaServico
                 },
                 success: function (msg) {
-                    window.location.reload();
+                    if (msg.erroNFSE == null) {
+                        window.location.reload();
+                    } else {
+                        alert(msg.erroNFSE);
+                        window.location.reload();
+                    }
                 }
             });
         });
