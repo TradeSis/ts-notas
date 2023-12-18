@@ -152,7 +152,7 @@ if (isset($LOG_NIVEL)) {
 }
 //LOG
 
-sleep(5);
+sleep(2);
 $dadosNFSE = $apiInstance->consultarNfse($nfse['id']);
 
 //LOG
