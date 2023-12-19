@@ -24,27 +24,27 @@ if (isset($LOG_NIVEL)) {
 $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idEmpresa'])) {
-    $fornecedor = $jsonEntrada['fornecedor'];
-    $access_token = $jsonEntrada['access_token'];
-    $provedor = $jsonEntrada['provedor'];
-    $ambiente = $jsonEntrada['ambiente'];
-    $tpAmb = $jsonEntrada['tpAmb'];
-    $verAplic = $jsonEntrada['verAplic'];
-    $cTribNac = $jsonEntrada['cTribNac'];
-    $cNBS = $jsonEntrada['cNBS'];
-    $tribISSQN = $jsonEntrada['tribISSQN'];
-    $tpRetISSQN = $jsonEntrada['tpRetISSQN'];
-    $CST = $jsonEntrada['CST'];
-    $pAliqPis = $jsonEntrada['pAliqPis'];
-    $pAliqCofins = $jsonEntrada['pAliqCofins'];
-    $tpRetPisCofins = $jsonEntrada['tpRetPisCofins'];
-    $vTotTribFed = $jsonEntrada['vTotTribFed'];
-    $vTotTribEst = $jsonEntrada['vTotTribEst'];
-    $vTotTribMun = $jsonEntrada['vTotTribMun'];
+    $fornecedor = isset($jsonEntrada['fornecedor'])  && $jsonEntrada['fornecedor'] !== "" ? "'". $jsonEntrada['fornecedor']."'"  : "null";
+    $access_token = isset($jsonEntrada['access_token'])  && $jsonEntrada['access_token'] !== "" ? "'". $jsonEntrada['access_token']."'"  : "null";
+    $provedor = isset($jsonEntrada['provedor'])  && $jsonEntrada['provedor'] !== "" ? "'". $jsonEntrada['provedor']."'"  : "null";
+    $ambiente = isset($jsonEntrada['ambiente'])  && $jsonEntrada['ambiente'] !== "" ? "'". $jsonEntrada['ambiente']."'"  : "null";
+    $tpAmb = isset($jsonEntrada['tpAmb'])  && $jsonEntrada['tpAmb'] !== "" ?  $jsonEntrada['tpAmb']    : "null";
+    $verAplic = isset($jsonEntrada['verAplic'])  && $jsonEntrada['verAplic'] !== "" ? "'". $jsonEntrada['verAplic']."'"  : "null";
+    $cTribNac = isset($jsonEntrada['cTribNac'])  && $jsonEntrada['cTribNac'] !== "" ?  $jsonEntrada['cTribNac']    : "null";
+    $cNBS = isset($jsonEntrada['cNBS'])  && $jsonEntrada['cNBS'] !== "" ?  $jsonEntrada['cNBS']    : "null";    ['cNBS'];
+    $tribISSQN = isset($jsonEntrada['tribISSQN'])  && $jsonEntrada['tribISSQN'] !== "" ?  $jsonEntrada['tribISSQN']    : "null";
+    $tpRetISSQN = isset($jsonEntrada['tpRetISSQN'])  && $jsonEntrada['tpRetISSQN'] !== "" ?  $jsonEntrada['tpRetISSQN']    : "null";
+    $CST = isset($jsonEntrada['CST'])  && $jsonEntrada['CST'] !== "" ?  $jsonEntrada['CST']    : "null";
+    $pAliqPis = isset($jsonEntrada['pAliqPis'])  && $jsonEntrada['pAliqPis'] !== "" ?  $jsonEntrada['pAliqPis']    : "null";
+    $pAliqCofins = isset($jsonEntrada['pAliqCofins'])  && $jsonEntrada['pAliqCofins'] !== "" ?  $jsonEntrada['pAliqCofins']    : "null";
+    $tpRetPisCofins = isset($jsonEntrada['tpRetPisCofins'])  && $jsonEntrada['tpRetPisCofins'] !== "" ?  $jsonEntrada['tpRetPisCofins']    : "null";
+    $vTotTribFed = isset($jsonEntrada['vTotTribFed'])  && $jsonEntrada['vTotTribFed'] !== "" ?  $jsonEntrada['vTotTribFed']    : "null";
+    $vTotTribEst = isset($jsonEntrada['vTotTribEst'])  && $jsonEntrada['vTotTribEst'] !== "" ?  $jsonEntrada['vTotTribEst']    : "null";
+    $vTotTribMun = isset($jsonEntrada['vTotTribMun'])  && $jsonEntrada['vTotTribMun'] !== "" ?  $jsonEntrada['vTotTribMun']    : "null";
 
     $sql = "INSERT INTO `notasparametros`(`idEmpresa`, `fornecedor`, `access_token`, `provedor`, `ambiente`, `tpAmb`, `verAplic`, `cTribNac`, `cNBS`,
                         `tribISSQN`, `tpRetISSQN`, `CST`, `pAliqPis`, `pAliqCofins`, `tpRetPisCofins`, `vTotTribFed`, `vTotTribEst`, `vTotTribMun`) 
-                        VALUES ($idEmpresa, '$fornecedor', '$access_token', '$provedor', '$ambiente', $tpAmb, '$verAplic', $cTribNac, $cNBS,
+                        VALUES ($idEmpresa, $fornecedor, $access_token, $provedor, $ambiente, $tpAmb, $verAplic, $cTribNac, $cNBS,
                         $tribISSQN, $tpRetISSQN, $CST, $pAliqPis, $pAliqCofins, $tpRetPisCofins, $vTotTribFed, $vTotTribEst, $vTotTribMun)";
     //LOG
     if (isset($LOG_NIVEL)) {
