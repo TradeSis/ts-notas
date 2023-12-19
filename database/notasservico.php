@@ -159,31 +159,31 @@ if (isset($_GET['operacao'])) {
 
 	}
 
-	if ($operacao == "emitirNota") {
+	if ($operacao == "emitirnota") {
 
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
 			'idNotaServico' => $_POST['idNotaServico']
 		);
 		
-		$notas = chamaAPI(null, '/notas/emitirNota', json_encode($apiEntrada), 'POST');
+		$notas = chamaAPI(null, '/notas/emitirnota', json_encode($apiEntrada), 'POST');
 
 		echo json_encode($notas);
 		return $notas;
 	}
-	if ($operacao == "consultarNota") {
+	if ($operacao == "buscarnota") {
 
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
 			'idNotaServico' => $_POST['idNotaServico']
 		);
 		
-		$notas = chamaAPI(null, '/notas/consultarNota', json_encode($apiEntrada), 'POST');
+		$notas = chamaAPI(null, '/notas/buscarnota', json_encode($apiEntrada), 'POST');
 
 		echo json_encode($notas);
 		return $notas;
 	}
-	if ($operacao == "visualizarNota") {
+	if ($operacao == "baixarnota") {
 
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
@@ -191,7 +191,7 @@ if (isset($_GET['operacao'])) {
 			'visualizar' => $_POST['visualizar']
 		);
 		
-		$notas = chamaAPI(null, '/notas/visualizarNota', json_encode($apiEntrada), 'POST');
+		$notas = chamaAPI(null, '/notas/baixarnota', json_encode($apiEntrada), 'POST');
 
 		echo json_encode($notas);
 		return $notas;

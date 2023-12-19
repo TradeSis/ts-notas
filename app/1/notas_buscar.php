@@ -39,43 +39,11 @@ if (isset($jsonEntrada['idNotaServico'])) {
 
     $idProvedor = $row_consulta['idProvedor'];
 
-    //Chamar Function para emitir nota nuvemFiscal
-    $config = NuvemFiscal\Configuration::getDefaultConfiguration()
-        ->setHost('https://api.sandbox.nuvemfiscal.com.br')
-        ->setApiKey('Authorization', 'Bearer')
-        ->setAccessToken($parametros['access_token']);
-    $apiInstance = new NuvemFiscal\Api\NfseApi(
-        new GuzzleHttp\Client(),
-        $config
-    );
-    $dadosNFSE = $apiInstance->consultarNfse($idProvedor);
-
-    //LOG
-    if (isset($LOG_NIVEL)) {
-        if ($LOG_NIVEL >= 3) {
-            fwrite($arquivo, $identificacao . "-dadosNFSE->" . $dadosNFSE . "\n");
-        }
+    if ($parametros['fornecedor'] === "nuvemfiscal") {
+        $acao = "buscar";
+        include 'nuvemfiscal.php';
     }
-    //LOG
-
-    if ($dadosNFSE['status'] == "autorizada") {
-
-        $statusNota = 2; //Autorizada/Emitida
-        $retornoNFSE = null;
-        $dataEmissao = $dadosNFSE['data_emissao']->format('Y-m-d H:i:s');
-        $serie = $dadosNFSE->getDPS()->getSerie();
-        $nDPS = $dadosNFSE->getDPS()->getNDPS();
-
-        $sql = "UPDATE `notasservico` SET `statusNota`='$statusNota', `dataEmissao`='$dataEmissao', `url`='" . $dadosNFSE['link_url'] . "', `CodVerifica`='" . $dadosNFSE['codigo_verificacao'] . "',
-       `serieDPS`='$serie', `numeroDPS`='$nDPS', `serieNota`='$serie', `numeroNota`='" . $dadosNFSE['numero'] . "'
-       WHERE idNotaServico = $idNotaServico";
-    } else {
-        $statusNota = 3; //Aberto/Negada
-        $retornoNFSE = $dadosNFSE['mensagens'][0]['descricao'];
-        $sql = "UPDATE `notasservico` SET `statusNota`='$statusNota' WHERE idNotaServico = $idNotaServico";
-    }
-
-
+    
     //LOG
     if (isset($LOG_NIVEL)) {
         if ($LOG_NIVEL >= 3) {
@@ -93,8 +61,7 @@ if (isset($jsonEntrada['idNotaServico'])) {
 
         $jsonSaida = array(
             "status" => 200,
-            "retorno" => "ok",
-            "erroNFSE" => $retornoNFSE
+            "retorno" => $retornoNFSE
         );
     } catch (Exception $e) {
         $jsonSaida = array(

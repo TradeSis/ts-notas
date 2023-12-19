@@ -430,15 +430,15 @@ $cidades = buscarCidades();
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=emitirNota',
+                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=emitirnota',
                 data: {
                     idNotaServico: idNotaServico
                 },
                 success: function (msg) {
-                    if (msg.erroNFSE == null) {
+                    if (msg.retorno == "ok") {
                         window.location.reload();
                     } else {
-                        alert(msg.erroNFSE);
+                        alert(msg.retorno);
                         window.location.reload();
                     }
                 }
@@ -450,15 +450,15 @@ $cidades = buscarCidades();
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=consultarNota',
+                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=buscarnota',
                 data: {
                     idNotaServico: idNotaServico
                 },
                 success: function (msg) {
-                    if (msg.erroNFSE == null) {
+                    if (msg.retorno == "ok") {
                         window.location.reload();
                     } else {
-                        alert(msg.erroNFSE);
+                        alert(msg.retorno);
                         window.location.reload();
                     }
                 }
@@ -471,7 +471,7 @@ $cidades = buscarCidades();
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=visualizarNota',
+                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=baixarnota',
                 data: {
                     idProvedor: idProvedor,
                     visualizar: visualizarTipo

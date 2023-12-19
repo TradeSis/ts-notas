@@ -58,16 +58,16 @@ if ($metodo == "POST") {
       include 'notasservico_alterar.php';
       break;
 
-    case "emitirNota":
-      include 'emitirnota.php';
+    case "emitirnota":
+      include 'notas_emitir.php';
       break;
 
-    case "visualizarNota":
-      include 'visualizarNota.php';
+    case "baixarnota":
+      include 'notas_baixar.php';
       break;
 
-    case "consultarNota":
-      include 'consultarNota.php';
+    case "buscarnota":
+      include 'notas_buscar.php';
       break;
 
       default:
