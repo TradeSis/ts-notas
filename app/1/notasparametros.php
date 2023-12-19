@@ -1,0 +1,64 @@
+<?php
+$conexao = conectaMysql(null);
+
+//LOG
+$LOG_CAMINHO=defineCaminhoLog();
+if (isset($LOG_CAMINHO)) {
+    $LOG_NIVEL=defineNivelLog();
+    $identificacao=date("dmYHis")."-PID".getmypid()."-"."notasparametros";
+    if(isset($LOG_NIVEL)) {
+        if ($LOG_NIVEL>=1) {
+            $arquivo = fopen(defineCaminhoLog()."notasservico_".date("dmY").".log","a");
+        }
+    }
+    
+}
+if(isset($LOG_NIVEL)) {
+    if ($LOG_NIVEL==1) {
+        fwrite($arquivo,$identificacao."\n");
+    }
+    if ($LOG_NIVEL>=2) {
+        fwrite($arquivo,$identificacao."-ENTRADA->".json_encode($jsonEntrada)."\n");
+    }
+}
+//LOG
+
+$parametros = array();
+
+$sql = "SELECT notasparametros.*, empresa.nomeEmpresa FROM notasparametros 
+        LEFT JOIN empresa on empresa.idEmpresa = notasparametros.idEmpresa";
+if (isset($jsonEntrada["idParametros"])) {
+  $sql = $sql . " where notasparametros.idParametros = " . $jsonEntrada["idParametros"];
+}
+
+//echo $sql;
+
+//LOG
+if(isset($LOG_NIVEL)) {
+  if ($LOG_NIVEL>=3) {
+      fwrite($arquivo,$identificacao."-SQL->".$sql."\n");
+  }
+}
+//LOG
+
+$rows = 0;
+$buscar = mysqli_query($conexao, $sql);
+while ($row = mysqli_fetch_array($buscar, MYSQLI_ASSOC)) {
+  array_push($parametros, $row);
+  $rows = $rows + 1;
+}
+
+if (isset($jsonEntrada["idParametros"]) && $rows==1) {
+  $parametros = $parametros[0];
+}
+$jsonSaida = $parametros;
+
+
+//LOG
+if(isset($LOG_NIVEL)) {
+  if ($LOG_NIVEL>=2) {
+      fwrite($arquivo,$identificacao."-SAIDA->".json_encode($jsonSaida)."\n\n");
+  }
+}
+//LOG
+?>
