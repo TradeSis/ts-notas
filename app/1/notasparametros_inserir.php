@@ -1,5 +1,4 @@
 <?php
-$conexao = conectaMysql(null);
 
 //LOG
 $LOG_CAMINHO = defineCaminhoLog();
@@ -22,8 +21,9 @@ if (isset($LOG_NIVEL)) {
 }
 //LOG
 
+$idEmpresa = $jsonEntrada["idEmpresa"];
+$conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idEmpresa'])) {
-    $idEmpresa = $jsonEntrada['idEmpresa'];
     $fornecedor = $jsonEntrada['fornecedor'];
     $access_token = $jsonEntrada['access_token'];
     $provedor = $jsonEntrada['provedor'];

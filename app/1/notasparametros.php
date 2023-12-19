@@ -1,5 +1,4 @@
 <?php
-$conexao = conectaMysql(null);
 
 //LOG
 $LOG_CAMINHO=defineCaminhoLog();
@@ -23,10 +22,16 @@ if(isset($LOG_NIVEL)) {
 }
 //LOG
 
+
+$idEmpresa = null;
+if (isset($jsonEntrada["idEmpresa"])) {
+  $idEmpresa = $jsonEntrada["idEmpresa"];
+}
+
+$conexao = conectaMysql($idEmpresa);
 $parametros = array();
 
-$sql = "SELECT notasparametros.*, empresa.nomeEmpresa FROM notasparametros 
-        LEFT JOIN empresa on empresa.idEmpresa = notasparametros.idEmpresa";
+$sql = "SELECT notasparametros.* FROM notasparametros ";
 if (isset($jsonEntrada["idParametros"])) {
   $sql = $sql . " where notasparametros.idParametros = " . $jsonEntrada["idParametros"];
 }

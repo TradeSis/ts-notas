@@ -1,9 +1,7 @@
 <?php
 include_once(__DIR__ . '/../header.php');
 include_once(__DIR__ . '/../database/notasparametros.php');
-include_once(ROOT . '/sistema/database/empresa.php');
 
-$empresas = buscaEmpresas();
 $parametros = buscarParametros();
 ?>
 <!doctype html>
@@ -43,7 +41,6 @@ $parametros = buscarParametros();
             <table class="table table-hover table-sm align-middle">
                 <thead class="ts-headertabelafixo">
                     <tr>
-                        <th>Empresa</th>
                         <th>fornecedor</th>
                         <th>provedor</th>
                         <th>ambiente</th>
@@ -52,7 +49,6 @@ $parametros = buscarParametros();
                 </thead>
                 <?php foreach ($parametros as $parametro) { ?>
                     <tr>
-                        <td><?php echo $parametro['nomeEmpresa'] ?></td>
                         <td><?php echo $parametro['fornecedor'] ?></td>
                         <td><?php echo $parametro['provedor'] ?></td>
                         <td><?php echo $parametro['ambiente'] ?></td>
@@ -79,22 +75,10 @@ $parametros = buscarParametros();
                             <div class="col-md">
                                 <div class="row mt-3">
                                     <div class="col-md-3">
-                                        <label class="form-label ts-label">Empresa</label>
-                                        <select class="form-select ts-input" name="idEmpresa">
-                                            <?php
-                                            foreach ($empresas as $empresa) {
-                                                ?>
-                                            <option value="<?php echo $empresa['idEmpresa'] ?>">
-                                                <?php echo $empresa['nomeEmpresa'] ?>
-                                            </option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
                                         <label class="form-label ts-label">fornecedor</label>
                                         <input type="text" class="form-control ts-input" name="fornecedor">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-9">
                                         <label class="form-label ts-label">access_token</label>
                                         <input type="text" class="form-control ts-input" name="access_token">
                                     </div>
@@ -110,7 +94,7 @@ $parametros = buscarParametros();
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">tpAmb</label>
-                                        <input type="number" class="form-control ts-input" name="tpAmb">
+                                        <input type="text" class="form-control ts-input" name="tpAmb">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label ts-label">verAplic</label>
@@ -120,23 +104,23 @@ $parametros = buscarParametros();
                                 <div class="row mt-3">
                                     <div class="col-md-3">
                                         <label class="form-label ts-label">cTribNac</label>
-                                        <input type="number" class="form-control ts-input" name="cTribNac">
+                                        <input type="text" class="form-control ts-input" name="cTribNac">
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-label ts-label">cNBS</label>
-                                        <input type="number" class="form-control ts-input" name="cNBS">
+                                        <input type="text" class="form-control ts-input" name="cNBS">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">tribISSQN</label>
-                                        <input type="number" class="form-control ts-input" name="tribISSQN">
+                                        <input type="text" class="form-control ts-input" name="tribISSQN">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">tpRetISSQN</label>
-                                        <input type="number" class="form-control ts-input" name="tpRetISSQN">
+                                        <input type="text" class="form-control ts-input" name="tpRetISSQN">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">CST</label>
-                                        <input type="number" class="form-control ts-input" name="CST">
+                                        <input type="text" class="form-control ts-input" name="CST">
                                     </div>
                                 </div><!--fim row 3-->
                                 <div class="row mt-3">
@@ -190,27 +174,13 @@ $parametros = buscarParametros();
                             <div class="col-md">
                                 <div class="row mt-3">
                                     <div class="col-md-3">
-                                        <label class="form-label ts-label">Empresa</label>
-                                        <select class="form-select ts-input" name="idEmpresa" id="idEmpresa">
-                                            <?php
-                                            foreach ($empresas as $empresa) {
-                                                ?>
-                                            <option value="<?php echo $empresa['idEmpresa'] ?>">
-                                                <?php echo $empresa['nomeEmpresa'] ?>
-                                            </option>
-                                            <?php } ?>
-                                        </select>
+                                        <label class="form-label ts-label">fornecedor</label>
+                                        <input type="text" class="form-control ts-input" name="fornecedor" id="fornecedor">
                                         <input type="hidden" class="form-control ts-input" name="idParametros" id="idParametros">
                                     </div>
-                                    <div class="col-md-3">
-                                        <label class="form-label ts-label">fornecedor</label>
-                                        <input type="text" class="form-control ts-input" name="fornecedor"
-                                            id="fornecedor">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label ts-label">access_token</label>
-                                        <input type="text" class="form-control ts-input" name="access_token"
-                                            id="access_token">
+                                    <div class="col-md-9">
+                                            <label class="form-label ts-label">access_token</label>
+                                            <input type="text" class="form-control ts-input" name="access_token" id="access_token">
                                     </div>
                                 </div><!--fim row 1-->
                                 <div class="row mt-3">
@@ -224,7 +194,7 @@ $parametros = buscarParametros();
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">tpAmb</label>
-                                        <input type="number" class="form-control ts-input" name="tpAmb" id="tpAmb">
+                                        <input type="text" class="form-control ts-input" name="tpAmb" id="tpAmb">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label ts-label">verAplic</label>
@@ -234,58 +204,49 @@ $parametros = buscarParametros();
                                 <div class="row mt-3">
                                     <div class="col-md-3">
                                         <label class="form-label ts-label">cTribNac</label>
-                                        <input type="number" class="form-control ts-input" name="cTribNac"
-                                            id="cTribNac">
+                                        <input type="text" class="form-control ts-input" name="cTribNac" id="cTribNac">
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-label ts-label">cNBS</label>
-                                        <input type="number" class="form-control ts-input" name="cNBS" id="cNBS">
+                                        <input type="text" class="form-control ts-input" name="cNBS" id="cNBS">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">tribISSQN</label>
-                                        <input type="number" class="form-control ts-input" name="tribISSQN"
-                                            id="tribISSQN">
+                                        <input type="text" class="form-control ts-input" name="tribISSQN" id="tribISSQN">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">tpRetISSQN</label>
-                                        <input type="number" class="form-control ts-input" name="tpRetISSQN"
-                                            id="tpRetISSQN">
+                                        <input type="text" class="form-control ts-input" name="tpRetISSQN" id="tpRetISSQN">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">CST</label>
-                                        <input type="number" class="form-control ts-input" name="CST" id="CST">
+                                        <input type="text" class="form-control ts-input" name="CST" id="CST">
                                     </div>
                                 </div><!--fim row 3-->
                                 <div class="row mt-3">
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">pAliqPis</label>
-                                        <input type="number" class="form-control ts-input" name="pAliqPis"
-                                            id="pAliqPis">
+                                        <input type="text" class="form-control ts-input" name="pAliqPis" id="pAliqPis">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">pAliqCofins</label>
-                                        <input type="number" class="form-control ts-input" name="pAliqCofins"
-                                            id="pAliqCofins">
+                                        <input type="text" class="form-control ts-input" name="pAliqCofins" id="pAliqCofins">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">tpRetPisCofins</label>
-                                        <input type="number" class="form-control ts-input" name="tpRetPisCofins"
-                                            id="tpRetPisCofins">
+                                        <input type="text" class="form-control ts-input" name="tpRetPisCofins" id="tpRetPisCofins">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">vTotTribFed</label>
-                                        <input type="number" class="form-control ts-input" name="vTotTribFed"
-                                            id="vTotTribFed">
+                                        <input type="text" class="form-control ts-input" name="vTotTribFed" id="vTotTribFed">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">vTotTribEst</label>
-                                        <input type="number" class="form-control ts-input" name="vTotTribEst"
-                                            id="vTotTribEst">
+                                        <input type="text" class="form-control ts-input" name="vTotTribEst" id="vTotTribEst">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label ts-label">vTotTribMun</label>
-                                        <input type="number" class="form-control ts-input" name="vTotTribMun"
-                                            id="vTotTribMun">
+                                        <input type="text" class="form-control ts-input" name="vTotTribMun" id="vTotTribMun">
                                     </div>
                                 </div>
                             </div>
@@ -318,7 +279,6 @@ $parametros = buscarParametros();
                     },
                     success: function (data) {
                         $('#idParametros').val(data.idParametros);
-                        $('#idEmpresa').val(data.idEmpresa);
                         $('#fornecedor').val(data.fornecedor);
                         $('#access_token').val(data.access_token);
                         $('#provedor').val(data.provedor);

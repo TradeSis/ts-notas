@@ -3,13 +3,19 @@
 
 include_once __DIR__ . "/../conexao.php";
 
-function buscarParametros($idEmpresa=null)
+function buscarParametros($idParametros=null)
 {
 
 	$parametros = array();
 
+	$idEmpresa = null;
+	if (isset($_SESSION['idEmpresa'])) {
+    	$idEmpresa = $_SESSION['idEmpresa'];
+	}
+
 	$apiEntrada = array(
-		'idEmpresa' => $idEmpresa
+		'idEmpresa' => $idEmpresa,
+		'idParametros' => $idParametros
 	);
 	$parametros = chamaAPI(null, '/notas/notasparametros', json_encode($apiEntrada), 'GET');
 	return $parametros;
@@ -23,7 +29,7 @@ if (isset($_GET['operacao'])) {
 
 
 		$apiEntrada = array(
-			'idEmpresa' => $_POST['idEmpresa'],
+			'idEmpresa' => $_SESSION['idEmpresa'],
 			'fornecedor' => $_POST['fornecedor'],
 			'access_token' => $_POST['access_token'],
 			'provedor' => $_POST['provedor'],
@@ -51,8 +57,8 @@ if (isset($_GET['operacao'])) {
 	if ($operacao=="alterar") {
 
 		$apiEntrada = array(
+			'idEmpresa' => $_SESSION['idEmpresa'],
 			'idParametros' => $_POST['idParametros'],
-			'idEmpresa' => $_POST['idEmpresa'],
 			'fornecedor' => $_POST['fornecedor'],
 			'access_token' => $_POST['access_token'],
 			'provedor' => $_POST['provedor'],
@@ -78,6 +84,7 @@ if (isset($_GET['operacao'])) {
 	
 	if ($operacao == "buscar") {
 		$apiEntrada = array(
+			'idEmpresa' => $_SESSION['idEmpresa'],
 			'idParametros' => $_POST['idParametros']
 		);
 		$parametros = chamaAPI(null, '/notas/notasparametros', json_encode($apiEntrada), 'GET');

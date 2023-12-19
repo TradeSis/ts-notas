@@ -1,5 +1,4 @@
 <?php
-$conexao = conectaMysql(null);
 
 //LOG
 $LOG_CAMINHO = defineCaminhoLog();
@@ -22,9 +21,10 @@ if (isset($LOG_NIVEL)) {
 }
 //LOG
 
+$idEmpresa = $jsonEntrada["idEmpresa"];
+$conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idParametros'])) {
     $idParametros = $jsonEntrada['idParametros'];
-    $idEmpresa = $jsonEntrada['idEmpresa'];
     $fornecedor = $jsonEntrada['fornecedor'];
     $access_token = $jsonEntrada['access_token'];
     $provedor = $jsonEntrada['provedor'];
@@ -43,7 +43,7 @@ if (isset($jsonEntrada['idParametros'])) {
     $vTotTribEst = $jsonEntrada['vTotTribEst'];
     $vTotTribMun = $jsonEntrada['vTotTribMun'];
 
-    $sql = "UPDATE notasparametros SET `idParametros`=$idParametros,`idEmpresa`=$idEmpresa,`fornecedor`='$fornecedor',`access_token`='$access_token',
+    $sql = "UPDATE notasparametros SET `idParametros`=$idParametros,`fornecedor`='$fornecedor',`access_token`='$access_token',
                 `provedor`='$provedor',`ambiente`='$ambiente',`tpAmb`=$tpAmb,`verAplic`='$verAplic',`cTribNac`=$cTribNac,`cNBS`=$cNBS,`tribISSQN`=$tribISSQN,
                 `tpRetISSQN`=$tpRetISSQN,`CST`=$CST,`pAliqPis`=$pAliqPis,`pAliqCofins`=$pAliqCofins,`tpRetPisCofins`=$tpRetPisCofins,
                 `vTotTribFed`=$vTotTribFed,`vTotTribEst`=$vTotTribEst,`vTotTribMun`=$vTotTribMun WHERE `idParametros`=$idParametros";
