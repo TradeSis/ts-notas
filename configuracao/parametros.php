@@ -53,7 +53,7 @@ $parametros = buscarParametros();
                         <td><?php echo $parametro['provedor'] ?></td>
                         <td><?php echo $parametro['ambiente'] ?></td>
                         <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#alterarmodal" 
-                            data-idParametros="<?php echo $parametro['idParametros'] ?>"><i class="bi bi-pencil-square"></i></button>
+                            data-idEmpresa="<?php echo $parametro['idEmpresa'] ?>"><i class="bi bi-pencil-square"></i></button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -176,7 +176,7 @@ $parametros = buscarParametros();
                                     <div class="col-md-3">
                                         <label class="form-label ts-label">fornecedor</label>
                                         <input type="text" class="form-control ts-input" name="fornecedor" id="fornecedor">
-                                        <input type="hidden" class="form-control ts-input" name="idParametros" id="idParametros">
+                                        <input type="hidden" class="form-control ts-input" name="idEmpresa" id="idEmpresa">
                                     </div>
                                     <div class="col-md-9">
                                             <label class="form-label ts-label">access_token</label>
@@ -269,16 +269,16 @@ $parametros = buscarParametros();
         $(document).ready(function () {
 
             $(document).on('click', 'button[data-bs-target="#alterarmodal"]', function () {
-                var idParametros = $(this).attr("data-idParametros");
+                var idEmpresa = $(this).attr("data-idEmpresa");
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
                     url: '../database/notasparametros.php?operacao=buscar',
                     data: {
-                        idParametros: idParametros
+                        idEmpresa: idEmpresa
                     },
                     success: function (data) {
-                        $('#idParametros').val(data.idParametros);
+                        $('#idEmpresa').val(data.idEmpresa);
                         $('#fornecedor').val(data.fornecedor);
                         $('#access_token').val(data.access_token);
                         $('#provedor').val(data.provedor);

@@ -32,8 +32,8 @@ $conexao = conectaMysql($idEmpresa);
 $parametros = array();
 
 $sql = "SELECT notasparametros.* FROM notasparametros ";
-if (isset($jsonEntrada["idParametros"])) {
-  $sql = $sql . " where notasparametros.idParametros = " . $jsonEntrada["idParametros"];
+if (isset($jsonEntrada["idEmpresa"])) {
+  $sql = $sql . " where notasparametros.idEmpresa = " . $jsonEntrada["idEmpresa"];
 }
 
 //echo $sql;
@@ -53,9 +53,6 @@ while ($row = mysqli_fetch_array($buscar, MYSQLI_ASSOC)) {
   $rows = $rows + 1;
 }
 
-if (isset($jsonEntrada["idParametros"]) && $rows==1) {
-  $parametros = $parametros[0];
-}
 $jsonSaida = $parametros;
 
 

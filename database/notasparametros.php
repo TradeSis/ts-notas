@@ -3,7 +3,7 @@
 
 include_once __DIR__ . "/../conexao.php";
 
-function buscarParametros($idParametros=null)
+function buscarParametros()
 {
 
 	$parametros = array();
@@ -14,8 +14,7 @@ function buscarParametros($idParametros=null)
 	}
 
 	$apiEntrada = array(
-		'idEmpresa' => $idEmpresa,
-		'idParametros' => $idParametros
+		'idEmpresa' => $idEmpresa
 	);
 	$parametros = chamaAPI(null, '/notas/notasparametros', json_encode($apiEntrada), 'GET');
 	return $parametros;
@@ -58,7 +57,6 @@ if (isset($_GET['operacao'])) {
 
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
-			'idParametros' => $_POST['idParametros'],
 			'fornecedor' => $_POST['fornecedor'],
 			'access_token' => $_POST['access_token'],
 			'provedor' => $_POST['provedor'],
@@ -84,12 +82,11 @@ if (isset($_GET['operacao'])) {
 	
 	if ($operacao == "buscar") {
 		$apiEntrada = array(
-			'idEmpresa' => $_SESSION['idEmpresa'],
-			'idParametros' => $_POST['idParametros']
+			'idEmpresa' => $_SESSION['idEmpresa']
 		);
 		$parametros = chamaAPI(null, '/notas/notasparametros', json_encode($apiEntrada), 'GET');
 
-		echo json_encode($parametros);
+		echo json_encode($parametros[0]);
 		return $parametros;
 	}
 
