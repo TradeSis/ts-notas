@@ -4,7 +4,7 @@ $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idProvedor'])) {
 
-    $id = $jsonEntrada['idProvedor'];
+    $idProvedor = $jsonEntrada['idProvedor'];
     $visualizar = $jsonEntrada['visualizar'];
 
     //Busca parametros nota

@@ -195,7 +195,7 @@ if ($acao == "baixar") {
     if ($jsonEntrada['visualizar'] == "pdf") {
         $logotipo = null;
         $mensagem_rodape = null;
-        $PDF = $apiInstance->baixarPdfNfse($id, $logotipo, $mensagem_rodape);
+        $PDF = $apiInstance->baixarPdfNfse($idProvedor, $logotipo, $mensagem_rodape);
         $pdfContent = file_get_contents($PDF->getPathname());
         $base64PdfContent = base64_encode($pdfContent);
         $jsonSaida['pdf_content'] = $base64PdfContent;
