@@ -373,8 +373,8 @@ $cidades = buscarCidades();
                             linha += "<button type='button' class='btn btn-success btn-sm' id='consulta' data-idNotaServico='" + object.idNotaServico + "' title='Atualizar'><i class='bi bi-arrow-clockwise'></i></button>";
                         }
                         if (object.statusNota == 2) {
-                            linha += "<button type='button' class='btn btn-primary btn-sm' id='xml' data-idProvedor='" + object.idProvedor + "' title='Visualizar XML'><i class='bi bi-filetype-xml'></i></button>";
-                            linha += "<button type='button' class='btn btn-info btn-sm' id='pdf' data-idProvedor='" + object.idProvedor + "' title='Visualizar PDF'><i class='bi bi-filetype-pdf'></i></button>";
+                            linha += "<button type='button' class='btn btn-primary btn-sm' id='xml' data-idNotaServico='" + object.idNotaServico + "' title='Visualizar XML'><i class='bi bi-filetype-xml'></i></button>";
+                            linha += "<button type='button' class='btn btn-info btn-sm' id='pdf' data-idNotaServico='" + object.idNotaServico + "' title='Visualizar PDF'><i class='bi bi-filetype-pdf'></i></button>";
                         }
                         linha += "</td>";
                         linha += "</tr>";
@@ -430,15 +430,15 @@ $cidades = buscarCidades();
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=emitirNota',
+                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=emitirnota',
                 data: {
                     idNotaServico: idNotaServico
                 },
                 success: function (msg) {
-                    if (msg.erroNFSE == null) {
+                    if (msg.retorno == "ok") {
                         window.location.reload();
                     } else {
-                        alert(msg.erroNFSE);
+                        alert(msg.retorno);
                         window.location.reload();
                     }
                 }
@@ -450,15 +450,15 @@ $cidades = buscarCidades();
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=consultarNota',
+                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=buscarnota',
                 data: {
                     idNotaServico: idNotaServico
                 },
                 success: function (msg) {
-                    if (msg.erroNFSE == null) {
+                    if (msg.retorno == "ok") {
                         window.location.reload();
                     } else {
-                        alert(msg.erroNFSE);
+                        alert(msg.retorno);
                         window.location.reload();
                     }
                 }
@@ -466,14 +466,14 @@ $cidades = buscarCidades();
         });
 
         $(document).on('click', '#xml, #pdf', function () {
-            var idProvedor = $(this).attr("data-idProvedor");
+            var idNotaServico = $(this).attr("data-idNotaServico");
             var visualizarTipo = $(this).attr("id") === "xml" ? "xml" : "pdf";
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=visualizarNota',
+                url: '<?php echo URLROOT ?>/notas/database/notasservico.php?operacao=baixarnota',
                 data: {
-                    idProvedor: idProvedor,
+                    idNotaServico: idNotaServico,
                     visualizar: visualizarTipo
                 },
                 success: function (msg) {
@@ -493,7 +493,7 @@ $cidades = buscarCidades();
                         $('#pdfViewer').append(iframe);
 
                     } if (visualizarTipo === 'xml') {
-                        var xmlContent = atob(msg.xml_content);
+                        var xmlContent = msg.xml_content;
 
                         var Xml = formatXml(xmlContent);
 
@@ -504,7 +504,7 @@ $cidades = buscarCidades();
                             .addClass('btn btn-info btn-sm float-end')
                             .text('Download XML')
                             .click(function () {
-                                downloadXml(Xml, idProvedor + '.xml');
+                                downloadXml(Xml, idNotaServico + '.xml');
                             });
 
                         $('#xmlViewer').append(downloadButton);

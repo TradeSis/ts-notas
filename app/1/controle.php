@@ -15,6 +15,10 @@ if ($metodo == "GET") {
     case "notascontrato":
       include 'notascontrato.php';
       break;
+
+    case "notasparametros":
+      include 'notasparametros.php';
+      break;
     
     default:
       $jsonSaida = json_decode(json_encode(
@@ -38,6 +42,10 @@ if ($metodo == "PUT") {
       include 'notascontrato_inserir.php';
       break;
   
+    case "notasparametros":
+      include 'notasparametros_inserir.php';
+      break;
+  
 
     default:
       $jsonSaida = json_decode(json_encode(
@@ -58,16 +66,20 @@ if ($metodo == "POST") {
       include 'notasservico_alterar.php';
       break;
 
-    case "emitirNota":
-      include 'emitirnota.php';
+    case "notasparametros":
+      include 'notasparametros_alterar.php';
       break;
 
-    case "visualizarNota":
-      include 'visualizarNota.php';
+    case "emitirnota":
+      include 'notas_emitir.php';
       break;
 
-    case "consultarNota":
-      include 'consultarNota.php';
+    case "baixarnota":
+      include 'notas_baixar.php';
+      break;
+
+    case "buscarnota":
+      include 'notas_buscar.php';
       break;
 
       default:

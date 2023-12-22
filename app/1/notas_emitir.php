@@ -35,9 +35,41 @@ if (isset($jsonEntrada['idNotaServico'])) {
   $buscar_parametros = mysqli_query($conexao, $sql_parametros);
   $parametros = mysqli_fetch_array($buscar_parametros, MYSQLI_ASSOC);
 
+  //Verifica dados da nota
+  $sql_consulta = "SELECT * FROM notasservico WHERE idNotaServico = $idNotaServico";
+  $buscar_consulta = mysqli_query($conexao, $sql_consulta);
+  $row_consulta = mysqli_fetch_array($buscar_consulta, MYSQLI_ASSOC);
+
+  $idPessoaPrestador = $row_consulta['idPessoaPrestador'];
+  $idPessoaTomador = $row_consulta['idPessoaTomador'];
+  $dataCompetencia = $row_consulta['dataCompetencia'];
+  $valorNota = $row_consulta['valorNota'];
+  $condicao = $row_consulta['condicao'];
+  $descricaoServico = $row_consulta['descricaoServico'];
+  $codMunicipio = $row_consulta['codMunicipio'];
+
+
+  //Busca pessoa
+  $sql_consulta1 = "SELECT * FROM pessoas WHERE idPessoa = $idPessoaPrestador";
+  $buscar_consulta1 = mysqli_query($conexao, $sql_consulta1);
+  $prestador = mysqli_fetch_array($buscar_consulta1, MYSQLI_ASSOC);
+
+  $sql_consulta2 = "SELECT * FROM pessoas WHERE idPessoa = $idPessoaTomador";
+  $buscar_consulta2 = mysqli_query($conexao, $sql_consulta2);
+  $tomador = mysqli_fetch_array($buscar_consulta2, MYSQLI_ASSOC);
+
   if ($parametros['fornecedor'] === "nuvemfiscal") {
+    $acao = "emitir";
     include 'nuvemfiscal.php';
   }
+
+  //LOG
+  if (isset($LOG_NIVEL)) {
+    if ($LOG_NIVEL >= 3) {
+      fwrite($arquivo, $identificacao . "-SQL->" . $sql . "\n");
+    }
+  }
+  //LOG
 
   //TRY-CATCH
   try {
@@ -48,8 +80,7 @@ if (isset($jsonEntrada['idNotaServico'])) {
 
     $jsonSaida = array(
       "status" => 200,
-      "retorno" => "ok",
-      "erroNFSE" => $retornoNFSE
+      "retorno" => $retornoNFSE
     );
   } catch (Exception $e) {
     $jsonSaida = array(
