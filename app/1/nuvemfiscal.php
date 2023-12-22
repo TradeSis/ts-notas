@@ -139,17 +139,18 @@ if ($acao == "emitir") {
         $dataEmissao = $dadosNFSE['data_emissao']->format('Y-m-d H:i:s');
         $serie = $dadosNFSE->getDPS()->getSerie();
         $nDPS = $dadosNFSE->getDPS()->getNDPS();
+
     }
     if ($dadosNFSE['status'] === "negada") {
         $statusNota = 3; //Negada
-        $retornoNFSE = $dadosNFSE['mensagens'][0]['descricao'];
+        $retornoNFSE = isset($dadosNFSE['mensagens'][0]['descricao']) ? $dadosNFSE['mensagens'][0]['descricao'] : "erro generico";
     }
 
     $sql = "UPDATE `notasservico` SET `statusNota`='$statusNota', `idProvedor`='" . $dadosNFSE['id'] . "', `provedor`='" . $parametros['fornecedor'] . "' ";
 
     if ($dadosNFSE['status'] === "autorizada") {
         $sql = $sql . " , `dataEmissao`='$dataEmissao', `url`='" . $dadosNFSE['link_url'] . "', `CodVerifica`='" . $dadosNFSE['codigo_verificacao'] . "',
-        `serieDPS`='$serie', `numeroDPS`='$nDPS', `serieNota`='$serie', `numeroNota`='" . $dadosNFSE['numero'] . "' ";
+        `serieDPS`='$serie', `numeroDPS`='$nDPS', `serieNota`='$serie', `numeroNota`='" . $dadosNFSE['numero'] . "', `XML`='$xmlContent' ";
     }
 
     $sql = $sql . " WHERE idNotaServico = $idNotaServico";
@@ -175,6 +176,9 @@ if ($acao == "buscar") {
         $dataEmissao = $dadosNFSE['data_emissao']->format('Y-m-d H:i:s');
         $serie = $dadosNFSE->getDPS()->getSerie();
         $nDPS = $dadosNFSE->getDPS()->getNDPS();
+
+        $XML = $apiInstance->baixarXmlNfse($idProvedor);
+        $xmlContent = file_get_contents($XML->getPathname());
     } else {
         $statusNota = 3; //Aberto/Negada
         $retornoNFSE = $dadosNFSE['mensagens'][0]['descricao'];
@@ -184,7 +188,7 @@ if ($acao == "buscar") {
 
     if ($dadosNFSE['status'] === "autorizada") {
         $sql = $sql . " , `dataEmissao`='$dataEmissao', `url`='" . $dadosNFSE['link_url'] . "', `CodVerifica`='" . $dadosNFSE['codigo_verificacao'] . "',
-        `serieDPS`='$serie', `numeroDPS`='$nDPS', `serieNota`='$serie', `numeroNota`='" . $dadosNFSE['numero'] . "' ";
+        `serieDPS`='$serie', `numeroDPS`='$nDPS', `serieNota`='$serie', `numeroNota`='" . $dadosNFSE['numero'] . "', `XML`='$xmlContent' ";
     }
 
     $sql = $sql . " WHERE idNotaServico = $idNotaServico";
@@ -202,9 +206,13 @@ if ($acao == "baixar") {
     }
 
     if ($jsonEntrada['visualizar'] == "xml") {
-        $XML = $apiInstance->baixarXmlNfse($id);
-        $xmlContent = file_get_contents($XML->getPathname());
-        $base64XmlContent = base64_encode($xmlContent);
-        $jsonSaida['xml_content'] = $base64XmlContent;
-    }
+
+        if (isset($row_consulta['XML']) && !empty($row_consulta['XML'])) {
+            $jsonSaida['xml_content'] = $row_consulta['XML'];
+        } else {
+            $XML = $apiInstance->baixarXmlNfse($idProvedor);
+            $xmlContent = file_get_contents($XML->getPathname());
+            $jsonSaida['xml_content'] = $xmlContent;
+        }
+    } 
 }

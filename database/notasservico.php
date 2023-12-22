@@ -47,18 +47,17 @@ if (isset($_GET['operacao'])) {
 
 	//chama api de notascontrato onde grava registro na tabela de notasservico e notascontrato
 	if ($operacao=="inserir_notascontrato") {
-	
+		$condicao = strip_tags($_POST['condicao']);
+		$descricaoServico = strip_tags($_POST['descricaoServico']);
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
-			'idPessoaPrestador' => $_POST['idPessoaPrestador'],
 			'idContrato' => $_POST['idContrato'],
-    		'numeroNota' => $_POST['numeroNota'],
-    		'numeroDPS' => $_POST['numeroDPS'],
-    		'serieDPS' => $_POST['serieDPS'],
-    		'tipoRPS' => $_POST['tipoRPS'],
-    		'serieNota' => $_POST['serieNota'],
+			'idPessoaTomador' => $_POST['idPessoaTomador'],
+			'dataCompetencia' => $_POST['dataCompetencia'],
     		'valorNota' => $_POST['valorNota'],
-    		'condicao' => $_POST['condicao']
+    		'codMunicipio' => $_POST['codMunicipio'],
+    		'descricaoServico' => $descricaoServico,
+    		'condicao' => $condicao
 		);
 		/* echo json_encode($apiEntrada);
 		return; */
@@ -114,7 +113,7 @@ if (isset($_GET['operacao'])) {
 	
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
-			'idContrato' => $idContrato,
+			'idContrato' => $idContrato
 			
 		);
 		
@@ -187,7 +186,7 @@ if (isset($_GET['operacao'])) {
 
 		$apiEntrada = array(
 			'idEmpresa' => $_SESSION['idEmpresa'],
-			'idProvedor' => $_POST['idProvedor'],
+			'idNotaServico' => $_POST['idNotaServico'],
 			'visualizar' => $_POST['visualizar']
 		);
 		
