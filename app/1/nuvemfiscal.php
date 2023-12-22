@@ -213,6 +213,10 @@ if ($acao == "baixar") {
             $XML = $apiInstance->baixarXmlNfse($idProvedor);
             $xmlContent = file_get_contents($XML->getPathname());
             $jsonSaida['xml_content'] = $xmlContent;
+
+
+            $sql = "UPDATE `notasservico` SET `XML`='$xmlContent' ";
+            $atualizar = mysqli_query($conexao, $sql);
         }
     } 
 }
