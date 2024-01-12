@@ -27,20 +27,21 @@ $idEmpresa = $jsonEntrada["idEmpresa"];
 $conexao = conectaMysql($idEmpresa);
 if (isset($jsonEntrada['idNotaServico'])) {
     $idNotaServico = $jsonEntrada['idNotaServico'];
-    $idCliente = $jsonEntrada['idCliente'];
-    $dataFaturamento = $jsonEntrada['dataFaturamento'];
-    $dataEmissao = $jsonEntrada['dataEmissao'];
-    $serieNota = $jsonEntrada['serieNota'];
-    $numeroNota = isset($jsonEntrada['numeroNota']) && $jsonEntrada['numeroNota'] !== "" ? "'" . mysqli_real_escape_string($conexao, $jsonEntrada['numeroNota']) . "'" : "null";
-    $serieRPS = $jsonEntrada['serieRPS'];
-    $numeroRPS = isset($jsonEntrada['numeroRPS']) && $jsonEntrada['numeroRPS'] !== "" ? "'" . mysqli_real_escape_string($conexao, $jsonEntrada['numeroRPS']) . "'" : "null";
-    $valorNota = $jsonEntrada['valorNota'];
-    $statusNota = $jsonEntrada['statusNota'];
-    $condicao = $jsonEntrada['condicao'];
+    //Verifica dados da nota
+    $sql_consulta = "SELECT * FROM notasservico WHERE idNotaServico = $idNotaServico";
+    $buscar_consulta = mysqli_query($conexao, $sql_consulta);
+    $row_consulta = mysqli_fetch_array($buscar_consulta, MYSQLI_ASSOC);
+    
+    $idPessoaTomador  = isset($jsonEntrada['idPessoaTomador'])  && $jsonEntrada['idPessoaTomador'] !== "" && $jsonEntrada['idPessoaTomador'] !== "null" ? "'" . $jsonEntrada['idPessoaTomador']. "'"  : "'" . $row_consulta['idPessoaTomador']. "'";
+    $valorNota  = isset($jsonEntrada['valorNota'])  && $jsonEntrada['valorNota'] !== "" && $jsonEntrada['valorNota'] !== "null" ? "'" . $jsonEntrada['valorNota']. "'"  : "'" . $row_consulta['valorNota']. "'";
+    $codMunicipio  = isset($jsonEntrada['codMunicipio'])  && $jsonEntrada['codMunicipio'] !== "" && $jsonEntrada['codMunicipio'] !== "null" ? "'" . $jsonEntrada['codMunicipio']. "'"  : "'" . $row_consulta['codMunicipio']. "'";
+    $condicao  = isset($jsonEntrada['condicao'])  && $jsonEntrada['condicao'] !== "" && $jsonEntrada['condicao'] !== "null" ? "'" . $jsonEntrada['condicao']. "'"  : "'" . $row_consulta['condicao']. "'";
+    $descricaoServico  = isset($jsonEntrada['descricaoServico'])  && $jsonEntrada['descricaoServico'] !== "" && $jsonEntrada['descricaoServico'] !== "null" ? "'" . $jsonEntrada['descricaoServico']. "'"  : "'" . $row_consulta['descricaoServico']. "'";
+    $dataCompetencia  = isset($jsonEntrada['dataCompetencia'])  && $jsonEntrada['dataCompetencia'] !== "" && $jsonEntrada['dataCompetencia'] !== "null" ? "'" . $jsonEntrada['dataCompetencia']. "'"  : "'" . $row_consulta['dataCompetencia']. "'";
 
-    $sql = "UPDATE `notasservico` SET `idCliente`= $idCliente,`dataFaturamento`= '$dataFaturamento',`dataEmissao`= '$dataEmissao',`serieNota`='$serieNota',
-    `numeroNota`= $numeroNota,`serieRPS`='$serieRPS',`numeroRPS`= $numeroRPS,`valorNota`='$valorNota',`statusNota`= $statusNota,`condicao`='$condicao' 
-    WHERE notasservico.idNotaServico = $idNotaServico";
+    $sql = "UPDATE `notasservico` SET `idPessoaTomador`=$idPessoaTomador,`valorNota`= $valorNota,`dataCompetencia`=$dataCompetencia,
+                    `codMunicipio`=$codMunicipio,`condicao`=$condicao,`descricaoServico`=$descricaoServico
+    WHERE idNotaServico = $idNotaServico";
 
     //LOG
     if (isset($LOG_NIVEL)) {
